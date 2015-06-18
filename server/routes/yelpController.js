@@ -14,6 +14,7 @@ var yelp = require("yelp").createClient({
         var queryName = req.body.term
         var queryLocation = req.body.location
 
+        console.log("Req body is, ", req.body)
         console.log("REQ name", queryName)
         console.log("REQ location", queryLocation)
 
