@@ -13,8 +13,7 @@ var yelp = require("yelp").createClient({
 
         var queryName = req.body.term
         var queryLocation = req.body.location
-
-        console.log("Req body is, ", req.body)
+        
         console.log("REQ name", queryName)
         console.log("REQ location", queryLocation)
 
@@ -23,8 +22,6 @@ var yelp = require("yelp").createClient({
           console.log(data);
           res.send(200, data)
         });
-
-        console.log("Req is, ", req.url)
     },
 
     businessQuery: function(req, res){
