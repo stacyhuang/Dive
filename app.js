@@ -1,10 +1,14 @@
 var express = require('express');
 var app = require('./server/server.js');
+var dbClient = require('./server/database.js');
+
+
 // view engine setup
 
 
-app.listen(process.env.PORT || 4000)
+app.listen(process.env.PORT || 4000);
 console.log('Server now listening on port ' + 4000);
+
 
 /*
 Bryan Note on testing Yelp API:
