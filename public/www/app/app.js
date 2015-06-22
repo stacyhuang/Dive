@@ -7,7 +7,7 @@
   // the 2nd parameter is an array of 'requires'
   // 'starter.controllers' is found in controllers.js
   angular
-    .module('dive', ['ionic'])
+    .module('starter', ['ionic', 'starter.controllers'])
 
     .run(function($ionicPlatform) {
       $ionicPlatform.ready(function() {
@@ -29,39 +29,34 @@
       .state('app', {
         url: "/app",
         abstract: true,
-        templateUrl: "js/menu/menu.html"
+        templateUrl: "app/menu/menu.html",
+        controller: 'AppCtrl'
       })
-
-      .state('login', {
+      .state('app.login', {
         url: "/login",
-        templateUrl: "js/login/login.html",
-        controller: 'LoginCtrl'
-      })
+        'menuContent': {
+          templateUrl: "app/login/login.html",
+          controller: 'LoginCtrl'
+        }
 
-      .state('signup', {
-        url: "/signup",
-        templateUrl: "js/signup/signup.html",
-        controller: 'SignupCtrl'
       })
-
       .state('app.setlocation', {
         url: "/setlocation",
         views: {
           'menuContent': {
-            templateUrl: "js/setLocation/setlocation.html"
+            templateUrl: "app/setLocation/setlocation.html"
           }
         }
       })
-
       .state('app.main', {
         url: "/main",
         views: {
           'menuContent': {
-            templateUrl: "js/main/main.html"
+            templateUrl: "app/main/main.html"
           }
         }
       });
       // if none of the above states are matched, use this as the fallback
-      $urlRouterProvider.otherwise('/login');
+      $urlRouterProvider.otherwise('/app/main');
     });
 })();
