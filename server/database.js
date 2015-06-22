@@ -1173,6 +1173,9 @@ Similars.prototype.update = function(userID) {
   var userLikes = userID + ":Likes";
   var userDislikes = userID + ":Dislikes";
 
+  var otherUserList = [];
+  var otherUserScore = [];
+
   this.db.sunionstore("userRated", userLikes, userDislikes);
   var that = this;
   this.db.smembers("userRated", function(err, restaurantArray) {
@@ -1186,7 +1189,7 @@ Similars.prototype.update = function(userID) {
       that.db.sunionstore("comparisonMembers", "comparisonMembers", restaurantArray[i] + ":Likes");
       that.db.sunionstore("comparisonMembers", "comparisonMembers", restaurantArray[i] + ":Dislikes");
     }
-//    that.db.srem("comparisonMembers", userID);
+    that.db.srem("comparisonMembers", userID);
     for (i = 0; i < 10000000; i++) {
         j = 1;
 
@@ -1200,10 +1203,21 @@ Similars.prototype.update = function(userID) {
       var otherUserLikes;
       var otherUserDislikes;
 
+      var commonLikesArr = [];
+      var commonDislikesArr = [];
+      var conflicts1Arr = [];
+      var conflicts2Arr = [];
+      var allRatedRestaurantsArr = [];
+
+
       for (i = 0; i < compMembersArray.length; i++) {
+
         console.log(compMembersArray.length);
         otherUserLikes = compMembersArray[i] + ":Likes";
-        otherUserDislikes = compMembersArray[i] + ":Dislikes";        
+        otherUserDislikes = compMembersArray[i] + ":Dislikes";
+
+        otherUserList.push(compMembersArray[i]); 
+        console.log(otherUserList);       
         //these are temporary lists, need to clear them somehow
   
         that.db.sinterstore("commonLikes", userLikes, otherUserLikes);
@@ -1214,24 +1228,49 @@ Similars.prototype.update = function(userID) {
                         userDislikes, otherUserDislikes);
 
         that.db.scard("commonLikes", function(err, commonLikesCount) {
-            console.log("COMMON LIKES:  " + userID + "-  " + commonLikesCount);
-          that.db.scard("commonDislikes", function(err, commonDislikesCount) {
-            that.db.scard("conflicts1", function(err, conflicts1Count) {
-              that.db.scard("conflicts2", function(err, conflicts2Count) {
-                that.db.scard("allRatedRestaurants", function(err, allRatedRestaurantsCount) {
-                  console.log("HELLO");
-                  console.log(allRatedRestaurantsCount);
-                  console.log((Number(commonLikesCount) + Number(commonDislikesCount) -
-                               Number(conflicts1Count) - Number(conflicts2Count)) / Number(allRatedRestaurantsCount));
-
-                });
-              });
-            });
-          });
+          commonLikesArr.push(commonLikesCount);
         });
+
+        that.db.scard("commonDislikes", function(err, commonDislikesCount) {
+          commonDislikesArr.push(commonDislikesCount);
+        });
+
+        that.db.scard("conflicts1", function(err, conflicts1Count) {
+          conflicts1Arr.push(conflicts1Count);
+        });
+
+        that.db.scard("conflicts2", function(err, conflicts2Count) {
+          conflicts2Arr.push(conflicts2Count);
+        });
+
+        that.db.scard("allRatedRestaurants", function(err, allRatedRestaurantsCount) {
+          allRatedRestaurantsArr.push(allRatedRestaurantsCount);
+          if (compMembersArray.length === commonLikesArr.length) {
+            for (var k = 0; k < commonLikesArr.length; k++) {
+              console.log(" commonLikesCount:  " + commonLikesArr[k] +
+                  " commonDislikes:  " + commonDislikesArr[k] +
+                  " conflicts1:  " + conflicts1Arr[k] +
+                  " conflicts2:  " + conflicts2Arr[k] +
+                  " allRatedRestaurants:  " + allRatedRestaurantsArr[k]);
+
+            }
+          }
+
+
+                    // otherUserScore.push(comparisonIndex);
+                    // console.log(otherUserScore);
+
+                    // that.db.zadd(userID + ":Similars", comparisonIndex, "John");
+        });
+
+          // console.log(allRatedRestaurantsCount);
+
+        // comparisonIndex = (Number(commonLikesCount) + Number(commonDislikesCount) -
+        //                Number(conflicts1Count) - Number(conflicts2Count)) / Number(allRatedRestaurantsCount);
+
       }
     });
-  });
+});
 };
 
 var raterLikes = new Rater(client, "Likes");
@@ -1269,6 +1308,8 @@ raterDislikes.add(2, "abc");
 raterDislikes.add(2, "123");
 raterDislikes.add(2, "101112");
 raterDislikes.add(2, "131415");
+
+//client.sadd("1:Likes", "helo");
 
 //raterLikes.itemsByUser(2);
 
