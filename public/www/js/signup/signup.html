@@ -1,25 +1,26 @@
-<ion-view view-title="Signup">
-  <ion-content>
-    <form name="signupForm" ng-submit="signup()">
-      <div class="list">
-        <label class="item item-input">
-          <span class="input-label">Username</span>
-          <input type="text" ng-model="user.username">
-        </label>
-        <label class="item item-input">
-          <span class="input-label">Password</span>
-          <input type="password" ng-model="user.password">
-        </label>
-        <label class="item">
-          <button class="button button-block button-positive" type="submit">Sign Up</button>
-        </label>
-      </div>
-      <div class="padding">
-        <a href="/#/login" class="button-clear button-stable">
-          Already have an account? <strong>Signin</strong>
-        </a>
-      </div>
-    </form>
-  </ion-content>
- </ion-view>
+<ion-header-bar align-title="left" class="bar-stable">
+</ion-header-bar>
+<ion-content>
+  <form name="signupForm" ng-submit="signup()">
+    <div class="list">
+      <label class="item item-input">
+        <span class="input-label">Username</span>
+        <input type="text" ng-model="user.username">
+      </label>
+      <label class="item item-input">
+        <span class="input-label">Password</span>
+        <input type="password" ng-model="user.password">
+      </label>
+      <label class="item">
+        <button class="button button-block button-positive" type="submit">Sign Up</button>
+      </label>
+    </div>
+    <div class="padding">
+      <a ui-sref="login" class="button-clear button-stable">
+        Already have an account? <strong>Signin</strong>
+      </a>
+    </div>
+  </form>
+</ion-content>
+
 
