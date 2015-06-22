@@ -7,7 +7,7 @@
     .service('CardService', CardService);
 
      function CardService(){
-        this.card = {image: "../../img/background.jpg", name: "Homepage"}
+        this.card = {image: "./img/background.jpg", name: "Homepage"}
         this.addCard = function(){
             //Add a card to the ion-pane
         }
