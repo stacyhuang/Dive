@@ -5,14 +5,17 @@
 
     .controller('LoginCtrl', LoginCtrl);
 
-  LoginCtrl.$inject = ['$scope'];
+  LoginCtrl.$inject = ['$scope', '$location', 'Auth'];
 
-  function LoginCtrl($scope){
+  function LoginCtrl($scope, $location, Auth){
 
   	$scope.user = {};
 
   	$scope.login = function() {
-      console.log('Success');
+      $location.path('/app/setlocation');
+      // Auth.login($scope.user).then(function(response){
+      //   $location.path('/app/setlocation');
+      // });
   	};
   }
 
