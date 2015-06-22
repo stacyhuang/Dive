@@ -4,24 +4,20 @@
   angular
     .module('dive')
 
-    .controller('CardService', CardService);
+    .service('CardService', CardService);
 
-  CardService.$inject = ['$scope'];
-
-
-
-
-.service('CardService', function(){
-    this.addCard = function(){
-        //Add a card to the ion-pane
+     function CardService(){
+        this.card = {image: "../../img/background.jpg", name: "Homepage"}
+        this.addCard = function(){
+            //Add a card to the ion-pane
+        }
+        this.plusLeft = function(){
+            //Send information to algorithm (negative)
+        }
+        this.plusRight = function(){
+            //Send information to algorithm (positive)
+        }
     }
-    this.plusLeft = function(){
-        //Send information to algorithm (negative)
-    }
-    this.plusRight = function(){
-        //Send information to algorithm (positive)
-    }
-})
 
 
 })();
