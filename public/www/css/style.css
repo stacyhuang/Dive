@@ -1,16 +1,16 @@
 /* Empty. Add your own CSS if you like */
-.scroll-content{
+.search .scroll-content{
   display: table !important;
   width: 100% !important;
   height: 100% !important;
 }
-.scroll {
+.search .scroll {
   display: table-cell;
   vertical-align: middle;
   text-align: center;
 }
 
-.search-background{
+.search{
 	background-image: url("../../img/background.jpg");
 	background-repeat: no-repeat;
 	background-size: cover;

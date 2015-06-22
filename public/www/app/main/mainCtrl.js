@@ -1,7 +1,7 @@
 (function() {
 
   angular
-    .module('dive')
+    .module('starter.controllers')
 
     .controller('MainCtrl', MainCtrl);
 
