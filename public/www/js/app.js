@@ -7,7 +7,7 @@
   // the 2nd parameter is an array of 'requires'
   // 'starter.controllers' is found in controllers.js
   angular
-    .module('dive', ['ionic'])
+    .module('dive', ['ionic', 'ui.router'])
 
     .run(function($ionicPlatform) {
       $ionicPlatform.ready(function() {
