@@ -48,7 +48,8 @@
         url: "/location",
         views: {
           'menuContent': {
-            templateUrl: "js/location/location.html"
+            templateUrl: "js/location/location.html",
+            controller: 'LocationCtrl'
           }
         }
       })
