@@ -3,12 +3,12 @@
   angular
     .module('dive')
 
-    .controller('CardCtrl', CardCtrl);
+    .controller('MainCtrl', MainCtrl);
 
   MainCtrl.$inject = ['$scope'];
 
   function MainCtrl($scope){
-    .controller('CardCtrl', function($scope, CardService){
+    .controller('MainCtrl', function($scope, CardService){
         $scope.cardSwipedLeft = function(){
             CardService.plusLeft();
             CardService.addCard();
