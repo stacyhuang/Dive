@@ -1120,10 +1120,6 @@ client.sinterstore(restaurantList, restaurantList, "testList");
 var Rater = function(db, kind) {
   this.db = db;
   this.kind = kind;
-  // this.db = redis.createClient();
-  // this.db.on('connect', function() {
-  //     console.log('connected');
-  // });  
 };
 
 Rater.prototype.add = function(userID, restaurantID, done) {
@@ -1189,7 +1185,7 @@ Similars.prototype.update = function(userID) {
       that.db.sunionstore("comparisonMembers", "comparisonMembers", restaurantArray[i] + ":Likes");
       that.db.sunionstore("comparisonMembers", "comparisonMembers", restaurantArray[i] + ":Dislikes");
     }
-    that.db.srem("comparisonMembers", userID);
+//    that.db.srem("comparisonMembers", userID);
     for (i = 0; i < 10000000; i++) {
         j = 1;
 
@@ -1252,22 +1248,16 @@ Similars.prototype.update = function(userID) {
                   " conflicts1:  " + conflicts1Arr[k] +
                   " conflicts2:  " + conflicts2Arr[k] +
                   " allRatedRestaurants:  " + allRatedRestaurantsArr[k]);
-
+              comparisonIndex = (Number(commonLikesArr[k]) + Number(commonDislikesArr[k]) -
+                       Number(conflicts1Arr[k]) - Number(conflicts2Arr[k])) / Number(allRatedRestaurantsArr[k]);
+              console.log(comparisonIndex);
+              that.db.zadd(userID + ":Similars", comparisonIndex, compMembersArray[k]);
+              that.db.zrange(userID + ":Similars", 0, -1, function(err, answer) {
+                console.log(answer);
+              });
             }
           }
-
-
-                    // otherUserScore.push(comparisonIndex);
-                    // console.log(otherUserScore);
-
-                    // that.db.zadd(userID + ":Similars", comparisonIndex, "John");
         });
-
-          // console.log(allRatedRestaurantsCount);
-
-        // comparisonIndex = (Number(commonLikesCount) + Number(commonDislikesCount) -
-        //                Number(conflicts1Count) - Number(conflicts2Count)) / Number(allRatedRestaurantsCount);
-
       }
     });
 });
@@ -1293,6 +1283,9 @@ raterLikes.add(2, "mno");
 raterLikes.add(2, "pqr");
 raterLikes.add(2, "stu");
 raterLikes.add(2, "yz");
+
+
+raterLikes.add(4, "abc");
 
 raterLikes.add(3, "abc");
 raterLikes.add(3, "def");
