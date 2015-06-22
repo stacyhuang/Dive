@@ -44,11 +44,11 @@
         controller: 'SignupCtrl'
       })
 
-      .state('app.setlocation', {
-        url: "/setlocation",
+      .state('app.location', {
+        url: "/location",
         views: {
           'menuContent': {
-            templateUrl: "js/setLocation/setlocation.html"
+            templateUrl: "js/location/location.html"
           }
         }
       })
