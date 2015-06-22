@@ -1,14 +1,16 @@
 <ion-view class="search">
   <ion-content>
     <h1 class="light">Dive</h3>
-    <div class="item-input-inset bar-light">
-	    <label class="item-input-wrapper">
-	    	<i class="icon ion-search placeholder-icon"></i>
-	    	<input type="text" placeholder="Your Location">
-	    </label>
-    	<button class="button button-small" type="submit" ng-click="searchLocation()">
-    		Submit
-    	</button>
-    </div>
+    <form name="locationForm" ng-submit="searchLocation()">
+      <div class="item-input-inset bar-light">
+  	    <label class="item-input-wrapper">
+  	    	<i class="icon ion-search placeholder-icon"></i>
+  	    	<input type="text" ng-model="search.location" placeholder="Your Location">
+  	    </label>
+      	<button class="button button-small" type="submit">
+      		Submit
+      	</button>
+      </div>
+    </form>
   </ion-content>
 </ion-view>

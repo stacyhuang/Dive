@@ -5,15 +5,15 @@
 
     .controller('LocationCtrl', LocationCtrl);
 
-  LocationCtrl.$inject = ['$scope', '$location'];
+  LocationCtrl.$inject = ['$scope', '$location', 'LocationFactory'];
 
-  function LocationCtrl($scope, $location){
+  function LocationCtrl($scope, $location, LocationFactory){
 
   	$scope.search = {};
 
   	$scope.searchLocation = function() {
       $location.path('/app/main');
-      // Auth.login($scope.search).then(function(response){
+      // LocationFactory.searchLocation($scope.search.location).then(function(response){
       //   $location.path('/app/main');
       // });
   	};
