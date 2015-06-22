@@ -1,6 +1,6 @@
-<ion-view view-title="Login">
+<ion-view view-title="Signup">
   <ion-content>
-    <form name="loginForm" ng-submit="login()">
+    <form name="signupForm" ng-submit="signup()">
       <div class="list">
         <label class="item item-input">
           <span class="input-label">Username</span>
@@ -11,9 +11,9 @@
           <input type="password" ng-model="user.password">
         </label>
         <label class="item">
-          <button class="button button-block button-positive" type="submit">Log in</button>
+          <button class="button button-block button-positive" type="submit">Sign Up</button>
         </label>
-        <a href="#/signup">Don't have an account? <strong>Signup</strong></a>
+        <a href="#/login">Already have an account? <strong>Signin</strong></a>
       </div>
     </form>
   </ion-content>

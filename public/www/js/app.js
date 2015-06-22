@@ -38,6 +38,12 @@
         controller: 'LoginCtrl'
       })
 
+      .state('signup', {
+        url: "/signup",
+        templateUrl: "js/signup/signup.html",
+        controller: 'SignupCtrl'
+      })
+
       .state('app.setlocation', {
         url: "/setlocation",
         views: {
