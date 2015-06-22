@@ -1,9 +1,10 @@
 <ion-view view-title="Main">
-  <ion-content>
-    <ion-list>
-<!--       <ion-item ng-repeat="playlist in playlists" href="#/app/playlists/{{playlist.id}}">
-        {{playlist.title}}
-      </ion-item> -->
-    </ion-list>
-  </ion-content>
+  <ion-pane ng-controller="MainCtrl" on-swipe-left="cardSwipedLeft($index)" on-swipe-right="cardSwipedRight($index)" class="card">
+      <ion-header-bar class="bar-default">
+        <h1 class="title">{{card.name}}</h1>
+      </ion-header-bar>
+          <div class="image">
+            <img ng-src="{{card.image}}">
+          </div>
+    </ion-pane>
 </ion-view>
