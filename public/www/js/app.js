@@ -35,7 +35,8 @@
       .state('app.login', {
         url: "/login",
         'menuContent': {
-          templateUrl: "js/login/login.html"
+          templateUrl: "js/login/login.html",
+          controller: 'LoginCtrl'
         }
 
       })
