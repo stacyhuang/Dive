@@ -12,7 +12,7 @@
   	$scope.user = {};
 
   	$scope.login = function() {
-      $location.path('/app/setlocation');
+      $location.path('/app/location');
       // Auth.login($scope.user).then(function(response){
       //   $location.path('/app/setlocation');
       // });
