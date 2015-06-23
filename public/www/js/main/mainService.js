@@ -6,9 +6,15 @@
 
     .service('CardService', CardService);
 
+     // CardService.$inject = ['LocationFactory'];
+
      function CardService(){
         this.i = 0;
-        this.info = [{image: "./img/bar1.jpg", name: "Other Bar", info: "This bar has lots of light, can't you see?"}, {image: "./img/bar1.jpg", name: "Bar three", info: "this bar looks very similar to the last one..."}]
+        this.info;
+        this.retrieve = function(data){
+            this.info = data;
+            console.log(this.info[0])
+        }
         this.card = function(){
             return {image: "./img/background.jpg", name: "Homepage", info: "this is where it all begins, can you see the shingingwdoia aopufia aodsf s d"}
         }
