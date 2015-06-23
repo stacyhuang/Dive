@@ -14,7 +14,7 @@
   	$scope.login = function() {
       $location.path('/app/location');
       // AuthFactory.login($scope.user).then(function(response){
-      //   $location.path('/app/setlocation');
+      //   $location.path('/app/location');
       // });
   	};
   }

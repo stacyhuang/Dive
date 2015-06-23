@@ -12,9 +12,9 @@
   	$scope.user = {};
 
   	$scope.signup = function() {
-      $location.path('/#/location');
+      $location.path('/app/location');
       // AuthFactory.login($scope.user).then(function(response){
-      //   $location.path('/app/setlocation');
+      //   $location.path('/app/location');
       // });
   	};
   }
