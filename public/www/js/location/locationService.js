@@ -1,26 +1,24 @@
 (function() {
   angular
     .module('dive')
-    .factory('LocationFactory', function ($http, $location) {
-
+    .factory('LocationFactory', ['$http', '$location', 'CardService', function ($http, $location, CardService) {
       var searchLocation = function (location) {
         return $http({
           method: 'POST',
           url: '/yelpapi/search/',
-           data: {term: "Bar", location: location},
-           content-type: application/json
+          data: {term: "Bar", location: location},
+          contentType: "application/json"
         })
         .then(function (resp) {
-          var file = JSON.parse(resp);
-          console.log(file);
+          // console.log(resp.data.businesses)
+           CardService.retrieve(resp.data.businesses);
           // Do something upon successful search
         });
       };
-
       return {
         searchLocation: searchLocation
       };
-    });
+    }]);
 })();
 
 
