@@ -9,6 +9,20 @@
 
   function MainCtrl($scope, CardService, $ionicGesture, TDCardDelegate){
         $scope.card = CardService.card();
+        // $scope.onDragRight = function(){
+        //   console.log("dragging right")
+        // }
+
+        $scope.onTapLeft = function(){
+           CardService.plusLeft();
+           $scope.card = CardService.addCard(CardService.i);
+           CardService.i+=1;
+        }
+        $scope.onTapRight = function(){
+           CardService.plusRight();
+           $scope.card = CardService.addCard(CardService.i);
+           CardService.i+=1;
+        }
     var element = angular.element(document.querySelector('#eventPlaceholder'));
             var events = [{
             event: 'dragup',
@@ -26,7 +40,7 @@
             //console.log(obj.event)
             if (obj.event == 'dragleft'){                           
                 CardService.plusLeft();
-                $scope.card = CardService.addCard();
+                $scope.card = CardService.addCard(CardService.i);
             }
             if (obj.event == 'dragright'){                          
                 CardService.plusRight();
