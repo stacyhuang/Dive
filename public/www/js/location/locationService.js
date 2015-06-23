@@ -6,10 +6,13 @@
       var searchLocation = function (location) {
         return $http({
           method: 'POST',
-          url: '/location',
-          data: location
+          url: '/yelpapi/search/',
+           data: {term: "Bar", location: location},
+           content-type: application/json
         })
         .then(function (resp) {
+          var file = JSON.parse(resp);
+          console.log(file);
           // Do something upon successful search
         });
       };
@@ -19,3 +22,5 @@
       };
     });
 })();
+
+
