@@ -10,7 +10,7 @@
           data: user
         })
         .then(function (resp) {
-          // Do something upon successful login
+          return resp.data.token;
         });
       };
 
@@ -21,18 +21,25 @@
           data: user
         })
         .then(function (resp) {
-          // Do something upon successful signup
+          return resp.data.token
         });
       };
 
+      var isAuth = function(){
+        return !!$window.localStorage.getItem('com.dive');
+      }
+
       var signout = function () {
+        $window.localStorage.removeItem('com.dive');
         $location.path('/login');
       };
 
       return {
         login: login,
         signup: signup,
+        isAuth: isAuth,
         signout: signout
       };
     });
 })();
+

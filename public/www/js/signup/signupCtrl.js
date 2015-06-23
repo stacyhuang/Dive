@@ -12,10 +12,14 @@
   	$scope.user = {};
 
   	$scope.signup = function() {
-      $location.path('/app/location');
-      // AuthFactory.login($scope.user).then(function(response){
-      //   $location.path('/app/location');
-      // });
+      // $location.path('/app/location');
+      AuthFactory.signup($scope.user)
+        .then(function(token){
+          $window.locatStorage.setItem('com.dive', token);
+          $location.path('/app/location');
+      }).catch(function(error){
+        console.error(error);
+      })
   	};
   }
 
