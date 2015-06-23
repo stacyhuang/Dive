@@ -1,4 +1,9 @@
 var redis = require('redis');
+var Promise = require("bluebird");
+Promise.promisifyAll(require("redis"));
+
+// var db = redis.createClient...
+// db.getAsync(key).then()
 
 
 // By default, redis.createClient() will use 127.0.0.1 and 6379 as the hostname and port respectively. 
@@ -9,18 +14,6 @@ client.on('connect', function() {
 });
 
 client.flushdb();
-
-// client.sadd("users", "user:rahul");
-// client.hmset("user:rahul", "username", "rahul", "foo", "bar");
-
-// // add second user
-// client.sadd("users", "user:namita");
-// client.hmset("user:namita", "username", "namita", "foo", "baz");
-
-// client.hmset('camping', {
-//   'shelter': '2-person tent',
-//   'cooking': 'campstove'
-// }, redis.print);
 
 
 
@@ -1120,17 +1113,13 @@ client.sinterstore(restaurantList, restaurantList, "testList");
 var Rater = function(db, kind) {
   this.db = db;
   this.kind = kind;
-  // this.db = redis.createClient();
-  // this.db.on('connect', function() {
-  //     console.log('connected');
-  // });  
 };
 
 Rater.prototype.add = function(userID, restaurantID, done) {
   var userSentimentList = userID + ":" + this.kind;
   var restaurantSentimentList = restaurantID + ":" + this.kind;
   this.db.sadd(userSentimentList, restaurantID);
-  this.db.sadd(restaurantSentimentList, userID);  
+  this.db.sadd(restaurantSentimentList, userID);
 };
 
 Rater.prototype.remove = function(userID, restaurantID, done) {
@@ -1173,6 +1162,16 @@ Similars.prototype.update = function(userID) {
   var userLikes = userID + ":Likes";
   var userDislikes = userID + ":Dislikes";
 
+  var otherUserList = [];
+  var otherUserScore = [];
+
+  this.db.smembersAsync(userLikes).then(function(restaurantArray) {
+    console.log("DOES THIS ASYNC FUNCTION WORK");
+    console.log(restaurantArray);
+  }).catch(function(e) {
+
+  });
+
   this.db.sunionstore("userRated", userLikes, userDislikes);
   var that = this;
   this.db.smembers("userRated", function(err, restaurantArray) {
@@ -1200,10 +1199,21 @@ Similars.prototype.update = function(userID) {
       var otherUserLikes;
       var otherUserDislikes;
 
+      var commonLikesArr = [];
+      var commonDislikesArr = [];
+      var conflicts1Arr = [];
+      var conflicts2Arr = [];
+      var allRatedRestaurantsArr = [];
+
+
       for (i = 0; i < compMembersArray.length; i++) {
+
         console.log(compMembersArray.length);
         otherUserLikes = compMembersArray[i] + ":Likes";
-        otherUserDislikes = compMembersArray[i] + ":Dislikes";        
+        otherUserDislikes = compMembersArray[i] + ":Dislikes";
+
+        otherUserList.push(compMembersArray[i]); 
+        console.log(otherUserList);       
         //these are temporary lists, need to clear them somehow
   
         that.db.sinterstore("commonLikes", userLikes, otherUserLikes);
@@ -1214,30 +1224,132 @@ Similars.prototype.update = function(userID) {
                         userDislikes, otherUserDislikes);
 
         that.db.scard("commonLikes", function(err, commonLikesCount) {
-            console.log("COMMON LIKES:  " + userID + "-  " + commonLikesCount);
-          that.db.scard("commonDislikes", function(err, commonDislikesCount) {
-            that.db.scard("conflicts1", function(err, conflicts1Count) {
-              that.db.scard("conflicts2", function(err, conflicts2Count) {
-                that.db.scard("allRatedRestaurants", function(err, allRatedRestaurantsCount) {
-                  console.log("HELLO");
-                  console.log(allRatedRestaurantsCount);
-                  console.log((Number(commonLikesCount) + Number(commonDislikesCount) -
-                               Number(conflicts1Count) - Number(conflicts2Count)) / Number(allRatedRestaurantsCount));
+          commonLikesArr.push(commonLikesCount);
+        });
 
-                });
+        that.db.scard("commonDislikes", function(err, commonDislikesCount) {
+          commonDislikesArr.push(commonDislikesCount);
+        });
+
+        that.db.scard("conflicts1", function(err, conflicts1Count) {
+          conflicts1Arr.push(conflicts1Count);
+        });
+
+        that.db.scard("conflicts2", function(err, conflicts2Count) {
+          conflicts2Arr.push(conflicts2Count);
+        });
+
+        that.db.scard("allRatedRestaurants", function(err, allRatedRestaurantsCount) {
+          allRatedRestaurantsArr.push(allRatedRestaurantsCount);
+          if (compMembersArray.length === commonLikesArr.length) {
+            for (var k = 0; k < commonLikesArr.length; k++) {
+              console.log(" commonLikesCount:  " + commonLikesArr[k] +
+                  " commonDislikes:  " + commonDislikesArr[k] +
+                  " conflicts1:  " + conflicts1Arr[k] +
+                  " conflicts2:  " + conflicts2Arr[k] +
+                  " allRatedRestaurants:  " + allRatedRestaurantsArr[k]);
+              comparisonIndex = (Number(commonLikesArr[k]) + Number(commonDislikesArr[k]) -
+                       Number(conflicts1Arr[k]) - Number(conflicts2Arr[k])) / Number(allRatedRestaurantsArr[k]);
+              console.log("COMPARISON INDEX:  " + comparisonIndex);
+              that.db.zadd(userID + ":Similars", comparisonIndex, compMembersArray[k]);
+              that.db.zrange(userID + ":Similars", 0, -1, function(err, answer) {
+                console.log("DO WE GET HERE");
+                console.log(answer);
               });
+            }
+          }
+        });
+      }
+    });
+});
+};
+
+
+var Suggestions = function(db) {
+  this.db = db;
+};
+
+Suggestions.prototype.forUser = function(userID) {
+  var userLikes = userID + ":Likes";
+  var userDislikes = userID + ":Dislikes";
+
+};
+
+
+Suggestions.prototype.update = function(userID) {
+//  GET USER'S UNRATED RESTAURANTS THAT
+//  ARENT IN PAST SUGGESTIONS
+//  FOR EACH RESTAURANT, CALCULATE PROBABILITY USER WILL LIKE IT
+//  -- PUT IN USER1 SUGGESTIONS LIST
+  var userLikes = userID + ":Likes";
+  var userDislikes = userID + ":Dislikes";
+  var db = this.db;
+
+  db.sunionstoreAsync("userRatedRestaurants", userLikes, userDislikes).
+  then(function () {
+    return db.sdiffstoreAsync("potentialList", "allRestaurants", "userRatedRestaurants" );
+  }).
+  then(function () {
+    return db.smembersAsync("potentialList");
+  }).
+  then(function (potentialList) {
+    potentialList.forEach(function(rest) {
+      var usersWhoLiked;
+      db.smembersAsync(rest + ":Likes").
+      then(function(usersWhoLiked) {
+        db.smembersAsync(rest + ":Dislikes").
+        then(function(usersWhoDisliked) {
+          console.log("USERS WHO DISLIKED LENGTH A:  " + usersWhoDisliked.length);
+          var numerator = 0;
+          var finalScore;
+          console.log("USERS WHO LIKED");
+          console.log(usersWhoLiked); 
+          var usersWhoLikedCount = usersWhoLiked.length;
+          console.log("USERS WHO LIKED COUNT:  " + usersWhoLikedCount);
+          var usersWhoDislikedCount = usersWhoDisliked.length;
+          var counter = 0;
+          usersWhoLiked.forEach(function(user) {
+            counter++;
+            db.zscore(userID + ":Similars", user, function(err, score) {
+              console.log("LIKE SCORE");
+              console.log(score);
+              numerator = numerator + Number(score);
+              if (counter === usersWhoLikedCount) { 
+                counter = 0;
+                console.log("USERS WHO DISLIKED LENGTH: " + usersWhoDislikedCount);
+                usersWhoDisliked.forEach(function(user) {
+                  console.log("JOHN");
+
+                  counter++;
+                  db.zscore(userID + ":Similars", user, function(err, score) {
+                     console.log("DISLIKE SCORE");
+                     console.log(score);
+                     numerator = numerator - Number(score);
+                     if (counter === usersWhoDislikedCount) {
+                       finalScore = numerator/(usersWhoLiked.length + usersWhoDisliked.length);
+                       db.zadd(userID + ":Suggestions", finalScore, rest);
+                       db.zrange(userID + ":Suggestions", 0, -1, function(err, answer) {
+                         console.log("SUGGESTIONS FOR " + userID);
+                         console.log(answer);
+                       });
+                     }
+                  });
+                });
+              }
             });
           });
         });
-      }
+      });
     });
   });
 };
 
+
+
 var raterLikes = new Rater(client, "Likes");
 var raterDislikes = new Rater(client, "Dislikes");
 var similars = new Similars(client);
-
+var suggestions = new Suggestions(client);
 
 raterLikes.add(1, "abc");
 raterLikes.add(1, "def");
@@ -1255,8 +1367,12 @@ raterLikes.add(2, "pqr");
 raterLikes.add(2, "stu");
 raterLikes.add(2, "yz");
 
+
+raterLikes.add(4, "abc");
+
 raterLikes.add(3, "abc");
 raterLikes.add(3, "def");
+raterLikes.add(3, "yz");
 
 
 raterDislikes.add(1, "123");
@@ -1270,11 +1386,55 @@ raterDislikes.add(2, "123");
 raterDislikes.add(2, "101112");
 raterDislikes.add(2, "131415");
 
+
+
+
+
+
+client.sadd("allRestaurants", "abc");
+client.sadd("allRestaurants", "def");
+client.sadd("allRestaurants", "ghi");
+client.sadd("allRestaurants", "jkl");
+client.sadd("allRestaurants", "mno");
+client.sadd("allRestaurants", "vwx");
+
+
+client.sadd("allRestaurants", "def");
+client.sadd("allRestaurants", "ghi");
+client.sadd("allRestaurants", "jkl");
+client.sadd("allRestaurants", "mno");
+client.sadd("allRestaurants", "pqr");
+client.sadd("allRestaurants", "stu");
+client.sadd("allRestaurants", "yz");
+
+
+client.sadd("allRestaurants", "123");
+client.sadd("allRestaurants", "456");
+client.sadd("allRestaurants", "789");
+client.sadd("allRestaurants", "101112");
+client.sadd("allRestaurants", "131415");
+
+
+
+
+//client.sadd("1:Likes", "helo");
+
 //raterLikes.itemsByUser(2);
 
 raterLikes.usersByItem("vwx");
 similars.update(1);
 
+// setTimeout(function() { suggestions.update(1); }, 100);
+// setTimeout(function() { suggestions.update(2); }, 100);
+
+suggestions.update(1);
+suggestions.update(2);
+
+client.zscore("1:Similars", "2", function(err, data) {
+    console.log("ZSCORE:  " + data);
+});
+
+     
 
 
 module.exports.client;
