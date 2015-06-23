@@ -1120,6 +1120,10 @@ client.sinterstore(restaurantList, restaurantList, "testList");
 var Rater = function(db, kind) {
   this.db = db;
   this.kind = kind;
+  // this.db = redis.createClient();
+  // this.db.on('connect', function() {
+  //     console.log('connected');
+  // });  
 };
 
 Rater.prototype.add = function(userID, restaurantID, done) {
@@ -1169,9 +1173,6 @@ Similars.prototype.update = function(userID) {
   var userLikes = userID + ":Likes";
   var userDislikes = userID + ":Dislikes";
 
-  var otherUserList = [];
-  var otherUserScore = [];
-
   this.db.sunionstore("userRated", userLikes, userDislikes);
   var that = this;
   this.db.smembers("userRated", function(err, restaurantArray) {
@@ -1199,21 +1200,10 @@ Similars.prototype.update = function(userID) {
       var otherUserLikes;
       var otherUserDislikes;
 
-      var commonLikesArr = [];
-      var commonDislikesArr = [];
-      var conflicts1Arr = [];
-      var conflicts2Arr = [];
-      var allRatedRestaurantsArr = [];
-
-
       for (i = 0; i < compMembersArray.length; i++) {
-
         console.log(compMembersArray.length);
         otherUserLikes = compMembersArray[i] + ":Likes";
-        otherUserDislikes = compMembersArray[i] + ":Dislikes";
-
-        otherUserList.push(compMembersArray[i]); 
-        console.log(otherUserList);       
+        otherUserDislikes = compMembersArray[i] + ":Dislikes";        
         //these are temporary lists, need to clear them somehow
   
         that.db.sinterstore("commonLikes", userLikes, otherUserLikes);
@@ -1224,43 +1214,24 @@ Similars.prototype.update = function(userID) {
                         userDislikes, otherUserDislikes);
 
         that.db.scard("commonLikes", function(err, commonLikesCount) {
-          commonLikesArr.push(commonLikesCount);
-        });
+            console.log("COMMON LIKES:  " + userID + "-  " + commonLikesCount);
+          that.db.scard("commonDislikes", function(err, commonDislikesCount) {
+            that.db.scard("conflicts1", function(err, conflicts1Count) {
+              that.db.scard("conflicts2", function(err, conflicts2Count) {
+                that.db.scard("allRatedRestaurants", function(err, allRatedRestaurantsCount) {
+                  console.log("HELLO");
+                  console.log(allRatedRestaurantsCount);
+                  console.log((Number(commonLikesCount) + Number(commonDislikesCount) -
+                               Number(conflicts1Count) - Number(conflicts2Count)) / Number(allRatedRestaurantsCount));
 
-        that.db.scard("commonDislikes", function(err, commonDislikesCount) {
-          commonDislikesArr.push(commonDislikesCount);
-        });
-
-        that.db.scard("conflicts1", function(err, conflicts1Count) {
-          conflicts1Arr.push(conflicts1Count);
-        });
-
-        that.db.scard("conflicts2", function(err, conflicts2Count) {
-          conflicts2Arr.push(conflicts2Count);
-        });
-
-        that.db.scard("allRatedRestaurants", function(err, allRatedRestaurantsCount) {
-          allRatedRestaurantsArr.push(allRatedRestaurantsCount);
-          if (compMembersArray.length === commonLikesArr.length) {
-            for (var k = 0; k < commonLikesArr.length; k++) {
-              console.log(" commonLikesCount:  " + commonLikesArr[k] +
-                  " commonDislikes:  " + commonDislikesArr[k] +
-                  " conflicts1:  " + conflicts1Arr[k] +
-                  " conflicts2:  " + conflicts2Arr[k] +
-                  " allRatedRestaurants:  " + allRatedRestaurantsArr[k]);
-              comparisonIndex = (Number(commonLikesArr[k]) + Number(commonDislikesArr[k]) -
-                       Number(conflicts1Arr[k]) - Number(conflicts2Arr[k])) / Number(allRatedRestaurantsArr[k]);
-              console.log(comparisonIndex);
-              that.db.zadd(userID + ":Similars", comparisonIndex, compMembersArray[k]);
-              that.db.zrange(userID + ":Similars", 0, -1, function(err, answer) {
-                console.log(answer);
+                });
               });
-            }
-          }
+            });
+          });
         });
       }
     });
-});
+  });
 };
 
 var raterLikes = new Rater(client, "Likes");
@@ -1284,9 +1255,6 @@ raterLikes.add(2, "pqr");
 raterLikes.add(2, "stu");
 raterLikes.add(2, "yz");
 
-
-raterLikes.add(4, "abc");
-
 raterLikes.add(3, "abc");
 raterLikes.add(3, "def");
 
@@ -1301,8 +1269,6 @@ raterDislikes.add(2, "abc");
 raterDislikes.add(2, "123");
 raterDislikes.add(2, "101112");
 raterDislikes.add(2, "131415");
-
-//client.sadd("1:Likes", "helo");
 
 //raterLikes.itemsByUser(2);
 
