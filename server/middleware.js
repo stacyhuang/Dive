@@ -6,11 +6,13 @@ var bodyParser = require('body-parser');
 
 module.exports = function(app, express){
     var routes = require('./routes/index');
-    var users = require('./routes/users');
     var yelpRouter = express.Router();
     var choiceRouter = express.Router();
+    var userRouter = express.Router();
+    
     require('./routes/yelpRouter.js')(yelpRouter);
     require('./routes/choiceRouter.js')(choiceRouter);
+    require('./routes/userRouter.js')(userRouter);
 
 
     // app.set('views', path.join(__dirname, 'views'));
@@ -28,7 +30,7 @@ module.exports = function(app, express){
     app.use(express.static(path.join(__dirname, '../public/www/')));
 
     app.use('/', routes);
-    app.use('/users', users);
+    app.use('/users/', userRouter);
     app.use('/yelpapi/', yelpRouter);
     app.use('/choice/', choiceRouter);
 

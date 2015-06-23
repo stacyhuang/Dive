@@ -12,7 +12,6 @@
   	$scope.user = {};
 
   	$scope.signup = function() {
-      // $location.path('/app/location');
       AuthFactory.signup($scope.user)
         .then(function(token){
           $window.locatStorage.setItem('com.dive', token);

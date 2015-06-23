@@ -1,6 +1,12 @@
 var express = require('express');
-var app = express();
 var db = require('./db/config.js');
+var mongoose = require('mongoose');
+
+var app = express();
+
+// connect to mongoose database named fresh
+mongoose.connect('mongodb://localhost/dive');
 
 require('./middleware')(app, express);
+
 module.exports = app;

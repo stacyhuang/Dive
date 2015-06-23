@@ -12,7 +12,6 @@
   	$scope.user = {};
 
   	$scope.login = function() {
-      // $location.path('/app/location');
       AuthFactory.login($scope.user)
         .then(function(token){
           $window.localStorage.setItem('com.dive', token);
