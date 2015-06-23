@@ -10,3 +10,17 @@ client.on('connect', function() {
 
 client.flushdb();
 module.exports.client;
+
+
+// var mongoose = require('mongoose');
+// mongoURI = process.env.CUSTOMCONNSTR_MONGOLAB_URI || 'mongodb://localhost/divedb';
+// mongoose.connect(mongoURI);
+
+// // Run in seperate terminal window using 'mongod'
+// var db = mongoose.connection;
+// db.on('error', console.error.bind(console, 'connection error:'));
+// db.once('open', function () {
+//  console.log('Mongodb connection open');
+// });
+
+// module.exports = db;
