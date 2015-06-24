@@ -38,13 +38,19 @@
       .state('login', {
         url: "/login",
         templateUrl: "js/login/login.html",
-        controller: 'LoginCtrl'
+        controller: 'LoginCtrl',
+        data: {
+          requireLogin: false
+        }
       })
 
       .state('signup', {
         url: "/signup",
         templateUrl: "js/signup/signup.html",
-        controller: 'SignupCtrl'
+        controller: 'SignupCtrl',
+        data: {
+          requireLogin: false
+        }
       })
 
       .state('app.location', {

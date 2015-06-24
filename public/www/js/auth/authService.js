@@ -1,7 +1,7 @@
 (function() {
   angular
     .module('dive')
-    .factory('AuthFactory', function ($http, $location) {
+    .factory('AuthFactory', function ($http, $location, $window) {
 
       var login = function (user) {
         return $http({
@@ -39,7 +39,7 @@
       return {
         login: login,
         signup: signup,
-        isAuth: isAuth,
+        isAuthorized: isAuthorized,
         signout: signout
       };
     });
