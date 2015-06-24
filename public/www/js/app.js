@@ -68,7 +68,8 @@
         url: "/main",
         views: {
           'menuContent': {
-            templateUrl: "js/main/main.html"
+            templateUrl: "js/main/main.html",
+            controller: 'MainCtrl'
           }
         }
       });
