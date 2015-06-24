@@ -51,7 +51,19 @@ a{
   height: 200px;
   border-radius: 6px;
 }
-
-.button{
-  position: relative;
+.ion-heart {
+  position:relative;
+  font-size: 35px;
+  -moz-border-radius: 15px;
+  -webkit-border-radius: 15px;
+  border: 1px solid #009900;
+  padding: .5px;
+}
+.ion-close-circled {
+  position:relative;
+  font-size: 35px;
+  -moz-border-radius: 15px;
+  -webkit-border-radius: 15px;
+  border: 1px solid #FF0000;
+  padding: .5px;
 }
