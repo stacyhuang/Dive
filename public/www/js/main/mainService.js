@@ -10,7 +10,7 @@
 
      function CardService($rootScope){
         this.i = 0;
-        this.info;
+        this.info = [];
         this.retrieve = function(data){
             this.info = data;
             console.log(this.info[0])
@@ -20,6 +20,9 @@
             return {image_url: "./img/background.jpg", name: "Homepage", location: {address: ["this is where it all begins, can you see the shingingwdoia aopufia aodsf s d"]}}
         }
         this.addCard = function(){
+            if(this.info.length === 0){
+                alert("Please specify a location")
+            }else{
             if(this.i === 20){
                 console.log($rootScope)
                 $rootScope.$broadcast('newInfo');
@@ -27,6 +30,7 @@
             else{
                 return this.info[this.i]
             }
+        }
             //Add a card to the ion-pane
         }
         this.plusLeft = function(){
