@@ -7,7 +7,8 @@
         return $http({
           method: 'POST',
           url: '/users/login',
-          data: user
+          data: user,
+          contentType: "application/json"
         })
         .then(function (resp) {
           return resp.data.token;
@@ -18,7 +19,8 @@
         return $http({
           method: 'POST',
           url: '/users/signup',
-          data: user
+          data: user,
+          contentType: "application/json"
         })
         .then(function (resp) {
           return resp.data.token

@@ -1,9 +1,14 @@
 var userController = require('./userController.js');
 
-
 module.exports = function (app) {
 
-  app.post('/login', userController.login);
-  app.post('/signup', userController.signup);
-  //app.get('/signedin', userController.checkAuth);
+  app.route('/login')
+    .post(userController.login);
+
+  app.route('/signup')
+    .post(userController.signup);
+
+  app.route('signedin')
+  	.get(userController.checkAuth);
+
 };

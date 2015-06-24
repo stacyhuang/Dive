@@ -5,9 +5,9 @@
 
     .controller('LoginCtrl', LoginCtrl);
 
-  LoginCtrl.$inject = ['$scope', '$location', 'AuthFactory'];
+  LoginCtrl.$inject = ['$scope', '$location', '$window', 'AuthFactory'];
 
-  function LoginCtrl($scope, $location, AuthFactory){
+  function LoginCtrl($scope, $location, $window, AuthFactory){
 
   	$scope.user = {};
 

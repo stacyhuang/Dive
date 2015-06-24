@@ -23,7 +23,7 @@
       });
     })
 
-    .config(function($stateProvider, $urlRouterProvider) {
+    .config(function($stateProvider, $urlRouterProvider, $httpProvider) {
       $stateProvider
 
       .state('app', {
@@ -64,5 +64,34 @@
       });
       // if none of the above states are matched, use this as the fallback
       $urlRouterProvider.otherwise('/login');
-    });
+
+      $httpProvider.interceptors.push('AttachTokens');
+    })
+    .factory('AttachTokens', function($window){
+      var attach = {
+        request: function(object){
+          var jwt = $window.localStorage.getItem('com.dive');
+          if(jwt){
+            object.headers['x-access-token'] = jwt;
+          }
+          object.headers['Allow-Control-Allow-Origin'] = '*';
+          return object;
+        }
+      };
+      return attach;
+    })
+
+
 })();
+
+
+
+
+
+
+
+
+
+
+
+

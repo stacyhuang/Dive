@@ -3,24 +3,19 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+var helpers = require('./routes/helpers.js');
 
 module.exports = function(app, express){
     var routes = require('./routes/index');
     var yelpRouter = express.Router();
     var choiceRouter = express.Router();
     var userRouter = express.Router();
-    
-    require('./routes/yelpRouter.js')(yelpRouter);
-    require('./routes/choiceRouter.js')(choiceRouter);
-    require('./routes/userRouter.js')(userRouter);
-
 
     // app.set('views', path.join(__dirname, 'views'));
     // app.set('view engine', 'jade');
 
     // uncomment after placing your favicon in /public
     //app.use(favicon(__dirname + '/public/favicon.ico'));
-
 
     app.use(logger('dev'));
     app.use(bodyParser.json());
@@ -30,10 +25,13 @@ module.exports = function(app, express){
     app.use(express.static(path.join(__dirname, '../public/www/')));
 
     app.use('/', routes);
-    app.use('/users/', userRouter);
+    app.use('/users', userRouter);
     app.use('/yelpapi/', yelpRouter);
     app.use('/choice/', choiceRouter);
 
+    require('./routes/userRouter.js')(userRouter);
+    require('./routes/yelpRouter.js')(yelpRouter);
+    require('./routes/choiceRouter.js')(choiceRouter);
 
     // // catch 404 and forward to error handler
     // app.use(function(req, res, next) {
