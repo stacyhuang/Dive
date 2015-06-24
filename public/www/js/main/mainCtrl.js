@@ -5,6 +5,7 @@
 
     .controller('MainCtrl', MainCtrl);
 
+
   MainCtrl.$inject = ['$scope', 'CardService', '$ionicGesture'];
 
   function MainCtrl($scope, CardService, $ionicGesture, TDCardDelegate){
@@ -12,11 +13,12 @@
         // $scope.onDragRight = function(){
         //   console.log("dragging right")
         // }
-
+        // console.log($rootScope)
         $scope.onTapLeft = function(){
            CardService.plusLeft();
            $scope.card = CardService.addCard(CardService.i);
            CardService.i+=1;
+           console.log(CardService.i)
         }
         $scope.onTapRight = function(){
            CardService.plusRight();
