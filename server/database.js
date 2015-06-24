@@ -383,12 +383,55 @@ module.exports.rateRestaurant = function(user, restaurantID, feeling) {
   }
 };
 
+module.exports.setLocation = function(userID, location) {
+ // - returns array of restaurant records in json format
+  client.set(userID + ":Location", location);
+};
+
+module.exports.setStartIndex = function(userID) {
+  var start = userID + ":StartIndex";
+  client.get(start, function(err, index) {
+    if (index === null) {
+      client.set(start, 0)
+    }
+    else
+    {
+      client.incr(start);
+    }
+  })
+
+};
 
 module.exports.getSuggestions = function(userID) {
  // - returns array of restaurant records in json format
 
-  return suggestions.forUser(userID);
-
+  client.get(userID + ":Location", function(err, location) {
+    var restaurantList = "restaurants:" + location;
+    var likesList = userID + ":Likes";
+    var dislikesList = userID + ":Dislikes";
+    client.sunionstore("ratedList", likesList, dislikesList);
+    client.smembers(restaurantList, function(err, data) {
+      // console.log(data);
+      client.smembers("ratedList", function(err, ratedList) {
+        var results = [];
+        client.get(userID + ":StartIndex", function(err, index) {
+          // console.log("INDEX :" + index);
+          // console.log("DO WE G HEERE");
+//          console.log(data);
+          index = Number(index);
+          while ((results.length < 20) && (index < data.length)) {
+            if (ratedList.indexOf(data[index]) === -1) {
+              client.incr(userID + ":StartIndex");
+              results.push(data[index]);
+              index = index+1;
+            }
+          }
+//          console.log(results);
+          return results;
+        });
+      })
+    });
+  });
 };
 
 module.exports.getUnreviewedRestaurants = function(userID, location) {
@@ -444,30 +487,32 @@ module.exports.importYelpRestaurants = function(location) {
 
   var queryName = "restaurant";
   var queryLocation = "San Francisco";
-  yelp.search({term: queryName, location: queryLocation, sort: 0, offset: 500 }, function(error, data) {
- //   console.log(data);
-    var restaurantList = "restaurants:" + location;
-    var description = "";
-    for (var i = 0; i < data.businesses.length; i++) {
-      restaurant = data.businesses[i];
-      console.log(restaurant.id);
-      for (var j = 0; j < restaurant.categories.length; j++) {
-        description = description + restaurant.categories[j][0];
-        if (j !== restaurant.categories.length - 1) {
-          description = description + ", ";
-        }
-      }      
-      client.hmset(restaurant.id, {
-        'name': restaurant.name,
-        'id': restaurant.id,
-        'image': restaurant.image_url,
-        'description': description
-      });
+  for (var offset = 0; offset < 500; offset=offset+20) {
+    yelp.search({term: queryName, location: queryLocation, sort: 0, offset: offset }, function(error, data) {
+   //   console.log(data);
+      var restaurantList = "restaurants:" + queryLocation;
+      var description = "";
+      for (var i = 0; i < data.businesses.length; i++) {
+        restaurant = data.businesses[i];
+//        console.log(restaurant.id);
+        for (var j = 0; j < restaurant.categories.length; j++) {
+          description = description + restaurant.categories[j][0];
+          if (j !== restaurant.categories.length - 1) {
+            description = description + ", ";
+          }
+        }      
+        client.hmset(restaurant.id, {
+          'name': restaurant.name,
+          'id': restaurant.id,
+          'image': restaurant.image_url,
+          'description': description
+        });
 
-      client.sadd(restaurantList, restaurant.id);
+        client.sadd(restaurantList, restaurant.id);
 
-    }
-  }); 
+      }
+    });
+  }   
 };
 
 
