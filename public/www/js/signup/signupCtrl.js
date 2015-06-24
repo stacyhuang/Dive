@@ -5,17 +5,21 @@
 
     .controller('SignupCtrl', SignupCtrl);
 
-  SignupCtrl.$inject = ['$scope', '$location', 'AuthFactory'];
+  SignupCtrl.$inject = ['$scope', '$location', '$window', 'AuthFactory'];
 
-  function SignupCtrl($scope, $location, AuthFactory){
+  function SignupCtrl($scope, $location, $window, AuthFactory){
 
   	$scope.user = {};
 
   	$scope.signup = function() {
-      $location.path('/#/location');
-      // AuthFactory.login($scope.user).then(function(response){
-      //   $location.path('/app/setlocation');
-      // });
+      AuthFactory.signup($scope.user)
+        .then(function(token){
+          $window.localStorage.setItem('com.dive', token);
+          $location.path('/app/location');
+        })
+        .catch(function(error){
+          console.error(error);
+        })
   	};
   }
 
