@@ -30,6 +30,7 @@
         url: "/app",
         abstract: true,
         templateUrl: "js/menu/menu.html",
+        controller: 'MenuCtrl',
         data: {
           requireLogin: true
         }
