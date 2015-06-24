@@ -1,3 +1,0 @@
-#define REDIS_GIT_SHA1 "0099019c"
-#define REDIS_GIT_DIRTY "       0"
-#define REDIS_BUILD_ID "Stacy-1435088474"
