@@ -30,6 +30,7 @@
         url: "/app",
         abstract: true,
         templateUrl: "js/menu/menu.html",
+        controller: 'MenuCtrl',
         data: {
           requireLogin: true
         }
@@ -67,7 +68,8 @@
         url: "/main",
         views: {
           'menuContent': {
-            templateUrl: "js/main/main.html"
+            templateUrl: "js/main/main.html",
+            controller: 'MainCtrl'
           }
         }
       });

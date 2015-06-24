@@ -16,9 +16,7 @@
             console.log(this.info[0])
             this.i = 0;
         }
-        this.card = function(){
-            return {image_url: "./img/background.jpg", name: "Homepage", location: {address: ["this is where it all begins, can you see the shingingwdoia aopufia aodsf s d"]}}
-        }
+
         this.addCard = function(){
             if(this.info.length === 0){
                 alert("Please specify a location")
