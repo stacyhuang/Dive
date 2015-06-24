@@ -94,7 +94,7 @@
     })
     .run(function ($rootScope, $location, AuthFactory) {
       // we use .run to register work which should be performed when the injector is done loading all modules.
-      // here we are implementing a listener on the $routeChangeStart event to track the next route navigation
+      // here we are implementing a listener on the $stateChangeStart event to track the next route navigation
       // we want to make sure the user is authorized 
       // when it does change routes, we look for the token in localstorage
       // and send that token to the server to see if it is a real user or hasn't expired
