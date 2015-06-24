@@ -1,4 +1,5 @@
 (function() {
+  var serverUrl = "http://tranquil-badlands-7300.herokuapp.com"
   angular
     .module('dive')
     .factory('AuthFactory', function ($http, $location, $window) {
@@ -6,7 +7,7 @@
       var login = function (user) {
         return $http({
           method: 'POST',
-          url: '/users/login',
+          url: serverUrl + '/users/login',
           data: user,
           contentType: "application/json"
         })
@@ -18,7 +19,7 @@
       var signup = function (user) {
         return $http({
           method: 'POST',
-          url: '/users/signup',
+          url: serverUrl + '/users/signup',
           data: user,
           contentType: "application/json"
         })
