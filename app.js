@@ -1,6 +1,6 @@
 var express = require('express');
 var app = require('./server/server.js');
-var dbClient = require('./server/database.js');
+var dbClient = require('./server/test.js');
 
 
 // view engine setup
