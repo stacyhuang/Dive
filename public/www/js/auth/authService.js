@@ -27,7 +27,7 @@
         });
       };
 
-      var isAuth = function(){
+      var isAuthorized = function(){
         return !!$window.localStorage.getItem('com.dive');
       }
 
