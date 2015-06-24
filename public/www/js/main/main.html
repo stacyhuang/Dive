@@ -7,7 +7,9 @@
             <img ng-src="{{card.image_url}}">
           </div>
           <div style="text-align: center">{{card.location.address[0]}} <br /> </div>
-         <button on-tap="onTapLeft()" class="ion-close-circled"></button>
-         <button on-tap="onTapRight()" class="ion-heart" style="float: right"></button>
+          <footer>
+         <button on-tap="onTapLeft()" class="ion-beer" id="second-beer"></button>
+         <button on-tap="onTapRight()" class="ion-beer" style="float: right"></button>
+     </footer>
     </ion-pane>
 </ion-view>
