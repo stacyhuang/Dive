@@ -1,12 +1,12 @@
-# Project Name
+# Dive
 
-> Pithy project description
+> The new way to find local bars that are suitable to your taste. The more you use the app, the better our predictions for your next favorite bar become. To find the right bar all you have to do is Dive in. 
 
 ## Team
 
-  - __Product Owner__: teamMember
+  - __Product Owner__: Bryan Liu
   - __Scrum Master__: teamMember
-  - __Development Team Members__: teamMember, teamMember
+  - __Development Team Members__: John Paulino, teamMember
 
 ## Table of Contents
 
