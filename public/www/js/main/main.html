@@ -1,27 +1,67 @@
-<ion-view view-title="Main">
+<ion-view view-title="{{card.name}}" ng-controller="MainCtrl">
+  <div class="list card">
+
+    <div class="item item-body">
+      <img class="full-image" src="{{card.image_url}}">
+      <p>
+        <i class="icon ion-home"> </i>
+        {{card.location.display_address[0]}}, 
+        {{card.location.display_address[1]}}
+        <br />
+        {{card.location.display_address[2]}}
+        <br />
+        <br />
+        <i class="icon ion-ios-telephone"> </i>
+        {{card.display_phone}}
+        <br />
+        <br />
+        <i class="icon ion-quote"> </i>
+        {{card.snippet_text}}
+      </p>
+    </div>
+
+    <div class="item tabs tabs-secondary tabs-icon-left">
+      <a class="tab-item" ng-click="onTapLeft()">
+        <i class="icon ion-beer down-beer"></i>
+        Dislike
+      </a>
+      <a class="tab-item" href="#">
+        <i class="icon ion-bookmark"></i>
+        Bookmark
+      </a>
+      <a class="tab-item" ng-click="onTapLeft()">
+        <i class="icon ion-beer"></i>
+        Like
+      </a>
+    </div>
+
+  </div>
+</ion-view>
+
+<!-- <ion-view view-title="Main"> -->
   <!-- Calls carSwipedDirection function with the index of that card so it can be retrieved by algorithm
   with native $ionicGesture functionality...wasn't working so used query selector -->
     <!-- The id 'eventPlaceholder' allows the querySelector to figure out what gesture event was called and act accordingly -->
-  <ion-pane on-drag-left="cardSwipedLeft($index)" on-drag-right="cardSwipedRight($index)" class="card" id="eventPlaceholder" no-scroll>
+  <!-- <ion-pane on-drag-left="cardSwipedLeft($index)" on-drag-right="cardSwipedRight($index)" class="card" id="eventPlaceholder" no-scroll> -->
     <!-- bar title defined by yelp's 'name' key in returned business object -->
-      <ion-header-bar class="bar-default">
+      <!-- <ion-header-bar class="bar-default">
         <h1 class="title">{{card.name}}</h1>
-      </ion-header-bar>
+      </ion-header-bar> -->
       <!-- bar image defined by yelp's 'image_url' key in returned business object, not very good images. Possibly use seperate api or find a way to retrieve other images from yelp?  -->
-          <div class="image">
+          <!-- <div class="image">
             <img ng-src="{{card.image_url}}">
-          </div>
+          </div> -->
           <!-- Three-part location in the following format:
                         Street address
                         Neighborhood
                         City and Zipcode -->
-          <div style="text-align: center">{{card.location.display_address[0]}} <br /> </div>
+          <!-- <div style="text-align: center">{{card.location.display_address[0]}} <br /> </div>
           <div style="text-align: center">{{card.location.display_address[1]}} <br /> </div>
-          <div style="text-align: center">{{card.location.display_address[2]}} <br /> </div>
+          <div style="text-align: center">{{card.location.display_address[2]}} <br /> </div> -->
           <!-- button for like and dislike. Call onTapDirection functions which send info to algorithm-->
-          <div class="bar bar-footer">
+          <!-- <div class="bar bar-footer">
            <button on-tap="onTapLeft()" class="ion-beer" id="second-beer"></button>
            <button on-tap="onTapRight()" class="ion-beer item-button-right" style="align: right"></button>
           </div>
     </ion-pane>
-</ion-view>
+</ion-view> -->
