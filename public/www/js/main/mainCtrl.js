@@ -5,26 +5,39 @@
 
     .controller('MainCtrl', MainCtrl);
 
+    /*
+      Original intent was to use native $ionicGesture, but complicated in it's similarity to watchout sprint
+    where it keeps calling the function over and over again. It also doesn't allow draggablility of ionic cards
+    without seperate ionic modules that broke upon the new version of angular which is bound into ionic.
 
+      CardService is the service for this controller.
+    */
   MainCtrl.$inject = ['$scope', 'CardService', '$ionicGesture'];
 
-  function MainCtrl($scope, CardService, $ionicGesture, TDCardDelegate){
+  function MainCtrl($scope, CardService, $ionicGesture){
+        //Starts out with first card from yelp/algorithm call
         $scope.card = CardService.addCard();
         // $scope.onDragRight = function(){
         //   console.log("dragging right")
         // }
         // console.log($rootScope)
         $scope.onTapLeft = function(){
+           //function call to algorithm which returns that yelp business,
+            // userID, and a positive or negative reaction
            CardService.plusLeft();
+           //turns up the next card in the list
            $scope.card = CardService.addCard(CardService.i);
+           //points to the following card in the list for next time
            CardService.i+=1;
-           console.log(CardService.i)
         }
         $scope.onTapRight = function(){
            CardService.plusRight();
            $scope.card = CardService.addCard(CardService.i);
            CardService.i+=1;
         }
+
+    //See above for explanation
+
     // var element = angular.element(document.querySelector('#eventPlaceholder'));
     //         var events = [{
     //         event: 'dragup',

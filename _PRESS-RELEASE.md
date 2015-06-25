@@ -1,4 +1,4 @@
-# Project Name #
+# Dive #
 
 <!-- 
 > This material was originally posted [here](http://www.quora.com/What-is-Amazons-approach-to-product-development-and-product-management). It is reproduced here for posterities sake.
@@ -17,28 +17,30 @@ Once the project moves into development, the press release can be used as a touc
  -->
  
 ## Heading ##
-  > Name the product in a way the reader (i.e. your target customers) will understand.
+  > To find the right bar all you have to do is Dive in.
 
 ## Sub-Heading ##
-  > Describe who the market for the product is and what benefit they get. One sentence only underneath the title.
+  > The more you use Dive, the better idea we'll have to point you in the direction of your new favorite bar.
 
 ## Summary ##
-  > Give a summary of the product and the benefit. Assume the reader will not read anything else so make this paragraph good.
+  > No more standing on the corner at 2am trying to figure which bar to hit next. With Dive your next destination is as simple as one swipe away.
 
 ## Problem ##
-  > Describe the problem your product solves.
+  > Ever find yourself with a group of friends trying to find the next great bar to hit up yet everyone is so indecisive?
 
 ## Solution ##
-  > Describe how your product elegantly solves the problem.
+  > Now all you have to do is login to Dive and problem solved! Simply go to your list of favorited bars we've reccommended to you or swipe and find another place that sparks your fancy.
 
 ## Quote from You ##
-  > A quote from a spokesperson in your company.
+  > This was always a problem when we went out bar-hopping. I just wanted to solve this problem for everyone else as well as my own friends. Let the drinks keep flowing and the night keep going!
 
 ## How to Get Started ##
-  > Describe how easy it is to get started.
+  > Just download our app, make an account, input your current location and you're good to go.
 
 ## Customer Quote ##
-  > Provide a quote from a hypothetical customer that describes how they experienced the benefit.
+  > I always hated the time we used to spend standing around trying to find where to go next, especially when that was time we could have spent drinking. Thanks, Dive!
+
+    How did this not exist before? Yelp was always so slow to pick through...who knows if the reviews other people put in fit for me too. Now I just Dive and I'm off.
 
 ## Closing and Call to Action ##
-  > Wrap it up and give pointers where the reader should go next.
+  > Check out the app and get to the bars!

@@ -6,26 +6,31 @@
 
     .service('CardService', CardService);
 
-     // CardService.$inject = ['LocationFactory'];
-
+    //$rootScope is accessible anywhere, and there is only one for the whole app, hence no injection
      function CardService($rootScope){
+        //counter to point at current/next yelp business
         this.i = 0;
+        //holds set of 20 businesses at a time for the user to cycle through
         this.info = [];
         this.retrieve = function(data){
+        //retrieves information from the algorithm to be set to info. This occurs in the beginning and
+        //everytime the user gets to the end of the info array.
             this.info = data;
-            console.log(this.info[0])
+        //reset to 0 to cycle through new information
             this.i = 0;
         }
-
+        //called to flip up a new card/info from this.info's array
         this.addCard = function(){
+                //if info is empty there was no call to the algorithm, hence they didn't specify their location
             if(this.info.length === 0){
                 alert("Please specify a location")
             }else{
             if(this.i === 20){
-                console.log($rootScope)
+                //broadcasts to locationService file asking for new information from the algorithm
                 $rootScope.$broadcast('newInfo');
                }
             else{
+                //posts information
                 return this.info[this.i]
             }
         }
