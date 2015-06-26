@@ -6,7 +6,8 @@
 
     .service('CardService', CardService);
 
-    //$rootScope is accessible anywhere, and there is only one for the whole app, hence no injection
+    //With angular there can be many different $scopes but only one $rootScope for the entire app. 
+        // It is also accessible anywhere in the app, hence no injection
      function CardService($rootScope){
         //counter to point at current/next yelp business
         this.i = 0;
@@ -25,17 +26,21 @@
             if(this.info.length === 0){
                 alert("Please specify a location")
             }else{
-            if(this.i === 20){
-                //broadcasts to locationService file asking for new information from the algorithm
-                $rootScope.$broadcast('newInfo');
-               }
-            else{
-                //posts information
-                return this.info[this.i]
+                if(this.i === 20){
+                    //broadcasts to locationService file asking for new information from the algorithm
+                    $rootScope.$broadcast('newInfo');
+                   }
+                else{
+                    //posts information
+                    return this.info[this.i]
+                }
             }
         }
-            //Add a card to the ion-pane
+        /*
+        this.saveCard = function(){
+            //send information to mongodb to save place for tht specific user
         }
+        */
         this.plusLeft = function(){
             console.log('left')
             //Send information to algorithm (negative)

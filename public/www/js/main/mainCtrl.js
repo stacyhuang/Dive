@@ -35,6 +35,13 @@
            $scope.card = CardService.addCard(CardService.i);
            CardService.i+=1;
         }
+        /*
+        $scope.onBookmark = function(){
+          CardService.saveCard($scope.card);
+          $scope.card = CardService.addCard(CardService.i);
+          CardService.i+=1;
+        }
+        */
 
     //See above for explanation
 

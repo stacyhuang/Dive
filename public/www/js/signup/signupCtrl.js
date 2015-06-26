@@ -18,6 +18,7 @@
           $location.path('/app/location');
         })
         .catch(function(error){
+          alert("Username already taken. Please try again!");
           console.error(error);
         })
   	};
