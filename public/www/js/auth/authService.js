@@ -12,7 +12,7 @@
           data: user,
           contentType: "application/json"
         })
-        .then(function (err, resp) {
+        .then(function (resp) {
            return resp.data.token;
         });
       };
@@ -25,7 +25,7 @@
           data: user,
           contentType: "application/json"
         })
-        .then(function (err, resp) {
+        .then(function (resp) {
             //only returns token 
             return resp.data.token
         });
