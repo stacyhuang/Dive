@@ -18,6 +18,7 @@
           $location.path('/app/location');
         })
         .catch(function(error){
+          alert("Username and password combination failed. Please try again!");
           console.error(error);
         })
   	};

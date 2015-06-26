@@ -2,34 +2,49 @@
   <div class="list card">
 
     <div class="item item-body">
+      <!-- src references the yelp api provided image, full-image tag -->
       <img class="full-image" src="{{card.image_url}}">
       <p>
+        <!-- House image provided by ionicons-->
         <i class="icon ion-home"> </i>
+          <!-- Three-part location in the following format:
+                        Street address
+                        Neighborhood
+                        City and Zipcode -->
         {{card.location.display_address[0]}}, 
         {{card.location.display_address[1]}}
         <br />
         {{card.location.display_address[2]}}
         <br />
         <br />
+        <!-- Phone image provided by ionicons-->
         <i class="icon ion-ios-telephone"> </i>
+          <!-- phone number through yelp api call -->
         {{card.display_phone}}
         <br />
         <br />
+        <!-- chunky quotation marks provided by ionicons -->
         <i class="icon ion-quote"> </i>
+        <!-- yelp api only provides one customer review, this is the one referenced below -->
         {{card.snippet_text}}
       </p>
     </div>
-
+    <!-- acts like a footer at the bottom of the card with three tabs for selections -->
     <div class="item tabs tabs-secondary tabs-icon-left">
+      <!-- Calls the onTapLeft function in MainCtrl to let the algorithm know that bar was 'disliked' -->
       <a class="tab-item" ng-click="onTapLeft()">
+        <!-- This is the same icon as below (ion-beer) but the css flips it upside down. No one likes spilled beer, hence the dislike button!-->
         <i class="icon ion-beer down-beer"></i>
         Dislike
       </a>
+      <!-- Let's the user bookmark that bar to reference for later -->
       <a class="tab-item" href="#">
+        <!-- <a class="tab-item" ng-click="onBookmark()"> -->
         <i class="icon ion-bookmark"></i>
         Bookmark
       </a>
-      <a class="tab-item" ng-click="onTapLeft()">
+      <!-- Calls the onTapRight function in MainCtrl to let the algorithm know that bar was 'liked' -->
+      <a class="tab-item" ng-click="onTapRight()">
         <i class="icon ion-beer"></i>
         Like
       </a>
