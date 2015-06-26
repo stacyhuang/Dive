@@ -43,12 +43,11 @@ var myFunction = function(arg) {
   suggestionsResponse = arg;
 };
 
-// setTimeout(function() {
-//     console.log(algorithm.getSuggestions(1, myCallback));
-//   }, 5000);
+
 
 var myCallback = function(arg) {
-  console.log("Suggestions " + arg);
+  console.log("Suggestions");
+  console.log(arg);
 };
 
 
@@ -72,84 +71,98 @@ otherModules.setLocation(2, "San Francisco");
 otherModules.setLocation(3, "San Francisco");
 otherModules.setLocation(4, "San Francisco");
 
-raterLikes.add(1, "abc");
-raterLikes.add(1, "def");
-raterLikes.add(1, "ghi");
-raterLikes.add(1, "jkl");
-raterDislikes.add(1, "mno");
-raterLikes.add(1, "pqr");
-raterLikes.add(1, "stu");
-raterLikes.add(1, "vwx");
-raterLikes.add(1, "yz");
+// raterLikes.add(1, "abc");
+// raterLikes.add(1, "def");
+// raterLikes.add(1, "ghi");
+// raterLikes.add(1, "jkl");
+// raterDislikes.add(1, "mno");
+// raterLikes.add(1, "pqr");
+// raterLikes.add(1, "stu");
+// raterLikes.add(1, "vwx");
+// raterLikes.add(1, "yz");
 
 
-raterDislikes.add(1, "1 2 3");
-raterDislikes.add(1, "4 5 6");
-raterDislikes.add(1, "7 8 9");
-raterDislikes.add(1, "10 11 12");
-raterDislikes.add(1, "13 14 15");
-raterDislikes.add(1, "16 17 18");
-raterDislikes.add(1, "19 20 21");
-raterDislikes.add(1, "22 23 24");
-raterDislikes.add(1, "25 26 27");
-raterDislikes.add(1, "28 29 30");
+// raterDislikes.add(1, "1 2 3");
+// raterDislikes.add(1, "4 5 6");
+// raterDislikes.add(1, "7 8 9");
+// raterDislikes.add(1, "10 11 12");
+// raterDislikes.add(1, "13 14 15");
+// raterDislikes.add(1, "16 17 18");
+// raterDislikes.add(1, "19 20 21");
+// raterDislikes.add(1, "22 23 24");
+// raterDislikes.add(1, "25 26 27");
+// raterDislikes.add(1, "28 29 30");
 
 
-raterLikes.add(2, "def");
-raterLikes.add(2, "ghi");
-raterLikes.add(2, "jkl");
-raterLikes.add(2, "mno");
-raterLikes.add(2, "pqr");
-raterLikes.add(2, "stu");
+// raterLikes.add(2, "def");
+// raterLikes.add(2, "ghi");
+// raterLikes.add(2, "jkl");
+// raterLikes.add(2, "mno");
+// raterLikes.add(2, "pqr");
+// raterLikes.add(2, "stu");
 
 
-raterDislikes.add(2, "1 2 3");
-raterDislikes.add(2, "4 5 6");
-raterDislikes.add(2, "7 8 9");
-raterDislikes.add(2, "10 11 12");
-raterDislikes.add(2, "13 14 15");
-raterDislikes.add(2, "16 17 18");
-raterDislikes.add(2, "19 20 21");
-raterDislikes.add(2, "22 23 24");
-raterDislikes.add(2, "25 26 27");
-raterDislikes.add(2, "28 29 30");
+// raterDislikes.add(2, "1 2 3");
+// raterDislikes.add(2, "4 5 6");
+// raterDislikes.add(2, "7 8 9");
+// raterDislikes.add(2, "10 11 12");
+// raterDislikes.add(2, "13 14 15");
+// raterDislikes.add(2, "16 17 18");
+// raterDislikes.add(2, "19 20 21");
+// raterDislikes.add(2, "22 23 24");
+// raterDislikes.add(2, "25 26 27");
+// raterDislikes.add(2, "28 29 30");
 
-raterLikes.add(3, "ghi");
-raterLikes.add(3, "jkl");
-raterLikes.add(3, "mno");
-raterLikes.add(3, "pqr");
-raterLikes.add(3, "vwx");
-
-
-raterDislikes.add(3, "1 2 3");
-raterDislikes.add(3, "4 5 6");
-raterDislikes.add(3, "7 8 9");
-raterDislikes.add(3, "10 11 12");
-raterDislikes.add(3, "13 14 15");
-raterDislikes.add(3, "16 17 18");
-raterDislikes.add(3, "19 20 21");
-raterDislikes.add(3, "22 23 24");
-raterDislikes.add(3, "25 26 27");
-raterDislikes.add(3, "28 29 30");
-
-raterLikes.add(4, "jkl");
-raterLikes.add(4, "mno");
-raterLikes.add(4, "pqr");
-raterLikes.add(4, "yz");
+// raterLikes.add(3, "ghi");
+// raterLikes.add(3, "jkl");
+// raterLikes.add(3, "mno");
+// raterLikes.add(3, "pqr");
+// raterLikes.add(3, "vwx");
 
 
-raterDislikes.add(4, "1 2 3");
-raterDislikes.add(4, "4 5 6");
-raterDislikes.add(4, "7 8 9");
-raterDislikes.add(4, "10 11 12");
-raterDislikes.add(4, "13 14 15");
-raterDislikes.add(4, "16 17 18");
-raterDislikes.add(4, "19 20 21");
-raterDislikes.add(4, "22 23 24");
-raterDislikes.add(4, "25 26 27");
-raterDislikes.add(4, "28 29 30");
+// raterDislikes.add(3, "1 2 3");
+// raterDislikes.add(3, "4 5 6");
+// raterDislikes.add(3, "7 8 9");
+// raterDislikes.add(3, "10 11 12");
+// raterDislikes.add(3, "13 14 15");
+// raterDislikes.add(3, "16 17 18");
+// raterDislikes.add(3, "19 20 21");
+// raterDislikes.add(3, "22 23 24");
+// raterDislikes.add(3, "25 26 27");
+// raterDislikes.add(3, "28 29 30");
+
+// raterLikes.add(4, "jkl");
+// raterLikes.add(4, "mno");
+// raterLikes.add(4, "pqr");
+// raterLikes.add(4, "yz");
 
 
+// raterDislikes.add(4, "1 2 3");
+// raterDislikes.add(4, "4 5 6");
+// raterDislikes.add(4, "7 8 9");
+// raterDislikes.add(4, "10 11 12");
+// raterDislikes.add(4, "13 14 15");
+// raterDislikes.add(4, "16 17 18");
+// raterDislikes.add(4, "19 20 21");
+// raterDislikes.add(4, "22 23 24");
+// raterDislikes.add(4, "25 26 27");
+// raterDislikes.add(4, "28 29 30");
+
+setTimeout(function() {
+  db.smembers("restaurants:San Francisco", function(err, data) {
+    console.log("INSIDE LLOP");
+    for (var i = 0; i < 10; i++) {
+      raterLikes.add(1, data[i]);
+    }
+    for (var j = 10; j < 15; j++) {
+      raterLikes.add(2, data[j]);
+    }
+  similars.update(1);
+  similars.update(2);
+  similars.update(3);
+  similars.update(4);
+
+  });}, 5000);
 
 
 
@@ -161,19 +174,22 @@ raterLikes.usersByItem("vwx");
 db.smembers("1:Likes", function(err, data) {
   console.log("MEMBERS OF 1: " + data);
 });
-similars.update(1);
-similars.update(2);
-similars.update(3);
-similars.update(4);
+
 
 // setTimeout(function() { suggestions.update(1); }, 100);
 // setTimeout(function() { suggestions.update(2); }, 100);
 
- suggestions.update(2, myCallback);
- suggestions.update(3, myCallback);
- suggestions.update(4, myCallback);
+ // suggestions.update(2, myCallback);
+ // suggestions.update(3, myCallback);
+ // suggestions.update(4, myCallback);
 
 //suggestions.update(2);
+
+setTimeout(function() {
+    console.log("GET SUGGESTIONS FUNCTION");
+    console.log(algorithm.getSuggestions(2, myCallback));
+  }, 10000);
+
 
 db.zscore("1:Similars", "2", function(err, data) {
     console.log("ZSCORE:  " + data);

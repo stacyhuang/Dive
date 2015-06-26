@@ -64,17 +64,24 @@ module.exports.getSuggestions = function(userID, cb) {
 
     client.sunionstore("ratedList", likesList, dislikesList);
     client.smembers(restaurantList, function(err, data) {
+      // console.log("RESTAURANT LIST");
       // console.log(data);
       client.smembers("ratedList", function(err, ratedList) {
         client.get(userID + ":StartIndex", function(err, index) {
           index = Number(index);
           console.log("INDEX:" + index);
           while ((results.length < 20) && (index < data.length)) {
+            console.log(data[index]);
             if (ratedList.indexOf(data[index]) === -1) {
               client.incr(userID + ":StartIndex");
               results.push(data[index]);
               index = index+1;
             }
+            else
+            {
+              index = index+1;
+            }
+
           }
           var results2 = [];
           for (var i = 0; i < results.length; i++) {
