@@ -5,7 +5,7 @@
     .factory('AuthFactory', function ($http, $location, $window) {
 
       var login = function (user) {
-        //sends post request to mongodb which uses bcrypt to decipher if that user/password combination is successful
+        // sends post request to mongodb which uses bcrypt to decipher if that user/password combination is successful
         return $http({
           method: 'POST',
           url: serverUrl + '/users/login',
@@ -13,12 +13,12 @@
           contentType: "application/json"
         })
         .then(function (resp) {
-           return resp.data.token;
+          return resp.data.token;
         });
       };
 
       var signup = function (user) {
-        //sends post request to mongodb with signup info 
+        // sends post request to mongodb with signup info 
         return $http({
           method: 'POST',
           url: serverUrl + '/users/signup',
@@ -26,18 +26,18 @@
           contentType: "application/json"
         })
         .then(function (resp) {
-            //only returns token 
-            return resp.data.token
+          // only returns token 
+          return resp.data.token
         });
       };
 
       var isAuthorized = function(){
-        //if they still have their token then they are authorized and can enter without logging in
+        // if they still have their token then they are authorized and can enter without logging in
         return !!$window.localStorage.getItem('com.dive');
       }
 
       var signout = function () {
-        //removes token for that user
+        // removes token for that user
         $window.localStorage.removeItem('com.dive');
         // redirects to login page
         $location.path('/login');
