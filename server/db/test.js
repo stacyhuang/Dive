@@ -48,7 +48,7 @@ var myFunction = function(arg) {
 //   }, 5000);
 
 var myCallback = function(arg) {
-  console.log(arg);
+  console.log("Suggestions " + arg);
 };
 
 
@@ -169,9 +169,9 @@ similars.update(4);
 // setTimeout(function() { suggestions.update(1); }, 100);
 // setTimeout(function() { suggestions.update(2); }, 100);
 
- suggestions.update(2);
- suggestions.update(3);
- suggestions.update(4);
+ suggestions.update(2, myCallback);
+ suggestions.update(3, myCallback);
+ suggestions.update(4, myCallback);
 
 //suggestions.update(2);
 

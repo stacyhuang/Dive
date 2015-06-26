@@ -16,7 +16,7 @@ Suggestions.prototype.forUser = function(userID) {
 };
 
 
-Suggestions.prototype.update = function(userID) {
+Suggestions.prototype.update = function(userID, cb) {
 //  GET USER'S UNRATED RESTAURANTS THAT
 //  ARENT IN PAST SUGGESTIONS
 //  FOR EACH RESTAURANT, CALCULATE PROBABILITY USER WILL LIKE IT
@@ -99,8 +99,9 @@ Suggestions.prototype.update = function(userID) {
           db.zadd(userID + ":Suggestions", finalScore, rest);
           if (rest === potentialList[potentialList.length - 1]) {
             db.zrange(userID + ":Suggestions", 0, -1, function(err, answer) {
-              console.log("SUGGESTIONS FOR " + userID);
-              console.log(answer);
+              // console.log("SUGGESTIONS FOR " + userID);
+              // console.log(answer);
+              cb(answer);
             });
           }
         });
