@@ -11,25 +11,12 @@ var algorithm = require('../../server/engines/algorithmAPI.js');
 //   console.log(data);
 // });
 
-algorithm.importYelpRestaurants("San Francisco");
+//algorithm.importYelpRestaurants("San Francisco");
 
 
 algorithm.setStartIndex(1);
 algorithm.setStartIndex(2);
 algorithm.setLocation(1, "San Francisco");
 algorithm.setLocation(2, "San Francisco");
-console.log("SUGGESTIONS FOR 2");
 
-var suggestionsResponse;
-
-var myFunction = function(arg) {
-  suggestionsResponse = arg;
-};
-
-
-
-var myCallback = function(arg) {
-  console.log("Suggestions");
-  console.log(arg);
-};
 
