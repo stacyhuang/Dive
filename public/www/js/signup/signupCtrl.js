@@ -16,6 +16,7 @@
         .then(function(token){
           $window.localStorage.setItem('com.dive', token);
           $location.path('/app/location');
+          $scope.user = {};
         })
         .catch(function(error){
           alert("Username already taken. Please try again!");

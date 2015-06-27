@@ -10,9 +10,9 @@
   function LocationCtrl($scope, $location, LocationFactory, $rootScope, $timeout){
     // always listening for when the user gets to the end of the list of businesses
     $rootScope.$on('newInfo', function(){
-       $timeout(function() {
-          // recalls the function below 
-          $scope.searchLocation();
+      $timeout(function() {
+        // recalls the function below 
+        $scope.searchLocation();
       });
     })
   	$scope.search = {};
@@ -24,6 +24,7 @@
         .then(function(response){
           // upon response, reroute to the main page
           $location.path('/app/main');
+          $scope.search.location = '';
         });
   	};
   }
