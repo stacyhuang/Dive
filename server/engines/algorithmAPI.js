@@ -19,6 +19,7 @@ module.exports.rateRestaurant = function(user, restaurantID, feeling) {
   {
     engine.likes.add(user, restaurantID);
   }
+  engine.similars.update(user);
 };
 
 module.exports.setLocation = function(userID, location) {
@@ -270,19 +271,22 @@ setTimeout(function() {
   db.smembers("restaurants:San Francisco", function(err, data) {
     console.log("INSIDE LLOP");
     for (var i = 0; i < 10; i++) {
-      raterLikes.add(1, data[i]);
+      module.exports.rateRestaurant(1, data[i]);
     }
     for (var j = 5; j < 15; j++) {
-      raterLikes.add(2, data[j]);
+      module.exports.rateRestaurant(2, data[j]);
+    }
+    for (var k = 8; k < 13; k++) {
+      module.exports.rateRestaurant(3, data[k]);
     }
 
 
   });}, 5000);
 
-setTimeout(function() {
+// setTimeout(function() {
 //  similars.update(1);
-  similars.update(2);
-}, 10000);
+//  similars.update(2);
+// }, 10000);
 
 
 //db.sadd("1:Likes", "helo");

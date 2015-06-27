@@ -33,7 +33,7 @@ Similars.prototype.update = function(userID) {
       that.db.sunionstore("comparisonMembers", "comparisonMembers", restaurantArray[i] + ":Likes");
       that.db.sunionstore("comparisonMembers", "comparisonMembers", restaurantArray[i] + ":Dislikes");
     }
-//    that.db.srem("comparisonMembers", userID);
+    that.db.srem("comparisonMembers", userID);
   
     that.db.smembers("comparisonMembers", function(err, compMembersArray) {
       var comparisonIndex;
