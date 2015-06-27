@@ -95,7 +95,7 @@ Similars.prototype.update = function(userID) {
               //     " allRatedRestaurants:  " + allRatedRestaurantsArr[k]);
               comparisonIndex = (Number(commonLikesArr[k]) + Number(commonDislikesArr[k]) -
                        Number(conflicts1Arr[k]) - Number(conflicts2Arr[k])) / Number(allRatedRestaurantsArr[k]);
-              console.log("COMPARISON INDEX" + userID + ":  " + compMembersArray[k] + "  " + comparisonIndex);
+              console.log("COMPARISON INDEX " + userID + ":  " + compMembersArray[k] + "  " + comparisonIndex);
               that.db.zadd(userID + ":Similars", comparisonIndex, compMembersArray[k]);
               that.db.zrange(userID + ":Similars", 0, -1, function(err, answer) {
                 // console.log ("DO WE GET HERE");

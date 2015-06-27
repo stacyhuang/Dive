@@ -57,7 +57,7 @@ module.exports.getSuggestions = function(userID, cb) {
           index = Number(index);
           console.log("INDEX:" + index);
           while ((results.length < 20) && (index < data.length)) {
-            console.log(data[index]);
+//            console.log(data[index]);
             if (ratedList.indexOf(data[index]) === -1) {
               db.incr(userID + ":StartIndex");
               results.push(data[index]);
@@ -272,16 +272,17 @@ setTimeout(function() {
     for (var i = 0; i < 10; i++) {
       raterLikes.add(1, data[i]);
     }
-    for (var j = 10; j < 15; j++) {
+    for (var j = 5; j < 15; j++) {
       raterLikes.add(2, data[j]);
     }
-  similars.update(1);
-  similars.update(2);
-  similars.update(3);
-  similars.update(4);
+
 
   });}, 5000);
 
+setTimeout(function() {
+//  similars.update(1);
+  similars.update(2);
+}, 10000);
 
 
 //db.sadd("1:Likes", "helo");
@@ -317,10 +318,10 @@ var myCallback = function(arg) {
 
 
 
-setTimeout(function() {
-    console.log("GET SUGGESTIONS FUNCTION");
-    console.log(module.exports.getSuggestions(2, myCallback));
-  }, 10000);
+// setTimeout(function() {
+//     console.log("GET SUGGESTIONS FUNCTION");
+//     console.log(module.exports.getSuggestions(2, myCallback));
+//   }, 10000);
 
 
 db.zscore("1:Similars", "2", function(err, data) {
