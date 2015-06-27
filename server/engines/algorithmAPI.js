@@ -107,6 +107,7 @@ module.exports.getSuggestions = function(userID, cb) {
         }
 
         db.sunionstore("ratedList", likesList, dislikesList);
+
         db.smembers(restaurantList, function(err, data) {
           // console.log("RESTAURANT LIST");
           // console.log(data);

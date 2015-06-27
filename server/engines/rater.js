@@ -14,9 +14,9 @@ Rater.prototype.add = function(userID, restaurantID, done) {
   var restaurantSentimentList = restaurantID + ":" + this.kind;
   db.sadd(userSentimentList, restaurantID);
   db.sadd(restaurantSentimentList, userID);
-  db.get(userID + ":Location", function(err, location) {
-    db.sadd("restaurants:" + location, restaurantID);
-  });
+  // db.get(userID + ":Location", function(err, location) {
+  //   db.sadd("restaurants:" + location, restaurantID);
+  // });
 };
 
 Rater.prototype.remove = function(userID, restaurantID, done) {
