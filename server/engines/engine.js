@@ -1,7 +1,6 @@
 var Rater = require('./rater.js');
 var Similars = require('./similars.js');
 var Suggestions = require('./suggestions.js');
-var db = require('../db/config'); 
 
 // Engine is the main hub that connects with other module.  Other modules will be passed in this instance of Engine
 
@@ -13,4 +12,5 @@ var Engine = function(db){
 };
 
 module.exports = Engine;
+
 
