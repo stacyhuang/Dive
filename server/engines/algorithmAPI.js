@@ -74,19 +74,6 @@ module.exports.setLocation = function(userID, location) {
   db.set(userID + ":Location", location);
 };
 
-module.exports.setStartIndex = function(userID) {
-  var start = userID + ":StartIndex";
-  db.get(start, function(err, index) {
-    if (index === null) {
-      db.set(start, 0);
-    }
-    else
-    {
-      db.incr(start);
-    }
-  });
-};
-
 module.exports.getSuggestions = function(userID, cb) {
  // - returns array of restaurant records in json format
 
@@ -97,7 +84,6 @@ module.exports.getSuggestions = function(userID, cb) {
       var likesList = userID + ":Likes";
       var dislikesList = userID + ":Dislikes";
       var results = [];
-      console.log("DO WE GET HERE ********************* 1");
 
       engine.suggestions.update(userID, function(suggestions) {
 
@@ -111,31 +97,27 @@ module.exports.getSuggestions = function(userID, cb) {
         db.smembers(restaurantList, function(err, data) {
           // console.log("RESTAURANT LIST");
           // console.log(data);
-          console.log("DO WE GET HERE ********************* 2");
 
           db.smembers("ratedList", function(err, ratedList) {
-            console.log("DO WE GET HERE ********************* 3");
-            db.get(userID + ":StartIndex", function(err, index) {
-              index = Number(index);
-              while ((results.length < 20) && (index < data.length)) {
-                console.log(data[index]);
-                if (ratedList.indexOf(data[index]) === -1 && results.indexOf(data[index]) === -1) {
-                  console.log(userID + ":StartIndex:  " + index);
-                  db.incr(userID + ":StartIndex");
-                  results.push(data[index]);
+            var index = 0;
+            while ((results.length < 20) && (index < data.length)) {
+              console.log(data[index]);
+              if (ratedList.indexOf(data[index]) === -1 && results.indexOf(data[index]) === -1) {
+                console.log(userID + ":StartIndex:  " + index);
+                db.incr(userID + ":StartIndex");
+                results.push(data[index]);
+              }
+              index = index+1;
+            }
+            var results2 = [];
+            for (var i = 0; i < results.length; i++) {
+              db.hgetall(results[i], function(err, data) {
+                results2.push(data);
+                if (results2.length == 20) {
+                  cb(results2);
                 }
-                index = index+1;
-              }
-              var results2 = [];
-              for (var i = 0; i < results.length; i++) {
-                db.hgetall(results[i], function(err, data) {
-                  results2.push(data);
-                  if (results2.length == 20) {
-                    cb(results2);
-                  }
-                });
-              }
-            });
+              });
+            }
           });
         });
       });

@@ -23,9 +23,10 @@ Suggestions.prototype.update = function(userID, cb) {
 //  -- PUT IN USER1 SUGGESTIONS LIST
   var userLikes = userID + ":Likes";
   var userDislikes = userID + ":Dislikes";
+  var userKept = userID + ":Kept";
   var db = this.db;
 
-  db.sunionstoreAsync(userID + ":userRatedRestaurants", userLikes, userDislikes).
+  db.sunionstoreAsync(userID + ":userRatedRestaurants", userLikes, userDislikes, userKept).
   then(function () {
     return db.getAsync(userID + ":Location");
   }).

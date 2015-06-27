@@ -13,11 +13,6 @@ var algorithm = require('../../server/engines/algorithmAPI.js');
 
 //algorithm.importYelpRestaurants("San Francisco");
 
-
-algorithm.setStartIndex(1);
-algorithm.setStartIndex(2);
-algorithm.setStartIndex(3);
-
 algorithm.setLocation(1, "San Francisco");
 algorithm.setLocation(2, "San Francisco");
 algorithm.setLocation(3, "San Francisco");
