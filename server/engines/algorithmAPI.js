@@ -49,31 +49,39 @@ module.exports.getSuggestions = function(userID, cb) {
     var dislikesList = userID + ":Dislikes";
     var results = [];
 
-    db.sunionstore("ratedList", likesList, dislikesList);
-    db.smembers(restaurantList, function(err, data) {
-      // console.log("RESTAURANT LIST");
-      // console.log(data);
-      db.smembers("ratedList", function(err, ratedList) {
-        db.get(userID + ":StartIndex", function(err, index) {
-          index = Number(index);
-          console.log("INDEX:" + index);
-          while ((results.length < 20) && (index < data.length)) {
-//            console.log(data[index]);
-            if (ratedList.indexOf(data[index]) === -1) {
-              db.incr(userID + ":StartIndex");
-              results.push(data[index]);
-            }
-            index = index+1;
-          }
-          var results2 = [];
-          for (var i = 0; i < results.length; i++) {
-            db.hgetall(results[i], function(err, data) {
-              results2.push(data);
-              if (results2.length == 20) {
-                cb(results2);
+    engine.suggestions.update(userID, function(suggestions) {
+
+      var limit = Math.min(20, suggestions.length);
+      for (var i = 0; i < limit; i++) {
+        results.push(suggestions[i]);
+      }
+
+      db.sunionstore("ratedList", likesList, dislikesList);
+      db.smembers(restaurantList, function(err, data) {
+        // console.log("RESTAURANT LIST");
+        // console.log(data);
+        db.smembers("ratedList", function(err, ratedList) {
+          db.get(userID + ":StartIndex", function(err, index) {
+            index = Number(index);
+            console.log("INDEX:" + index);
+            while ((results.length < 20) && (index < data.length)) {
+              console.log(data[index]);
+              if (ratedList.indexOf(data[index]) === -1 && results.indexOf(data[index]) === -1) {
+                db.incr(userID + ":StartIndex");
+                results.push(data[index]);
               }
-            });
-          }
+              index = index+1;
+            }
+            var results2 = [];
+            for (var i = 0; i < results.length; i++) {
+              db.hgetall(results[i], function(err, data) {
+                results2.push(data);
+                if (results2.length == 20) {
+                  cb(results2);
+                }
+              });
+            }
+          });
         });
       });
     });
@@ -179,93 +187,6 @@ var raterDislikes = engine.dislikes;
 var similars = engine.similars;
 var suggestions = engine.suggestions;
 
-// raterLikes.add(2, "abc");
-// raterLikes.add(2, "def");
-// raterLikes.add(2, "ghi");
-// raterLikes.add(2, "jkl");
-// raterDislikes.add(2, "mno");
-// raterLikes.add(2, "pqr");
-// raterLikes.add(2, "stu");
-// raterLikes.add(2, "vwx");
-// raterLikes.add(2, "yz");
-
-
-// raterLikes.add(1, "abc");
-// raterLikes.add(1, "def");
-// raterLikes.add(1, "ghi");
-// raterLikes.add(1, "jkl");
-// raterDislikes.add(1, "mno");
-// raterLikes.add(1, "pqr");
-// raterLikes.add(1, "stu");
-// raterLikes.add(1, "vwx");
-// raterLikes.add(1, "yz");
-
-
-// raterDislikes.add(1, "1 2 3");
-// raterDislikes.add(1, "4 5 6");
-// raterDislikes.add(1, "7 8 9");
-// raterDislikes.add(1, "10 11 12");
-// raterDislikes.add(1, "13 14 15");
-// raterDislikes.add(1, "16 17 18");
-// raterDislikes.add(1, "19 20 21");
-// raterDislikes.add(1, "22 23 24");
-// raterDislikes.add(1, "25 26 27");
-// raterDislikes.add(1, "28 29 30");
-
-
-// raterLikes.add(2, "def");
-// raterLikes.add(2, "ghi");
-// raterLikes.add(2, "jkl");
-// raterLikes.add(2, "mno");
-// raterLikes.add(2, "pqr");
-// raterLikes.add(2, "stu");
-
-
-// raterDislikes.add(2, "1 2 3");
-// raterDislikes.add(2, "4 5 6");
-// raterDislikes.add(2, "7 8 9");
-// raterDislikes.add(2, "10 11 12");
-// raterDislikes.add(2, "13 14 15");
-// raterDislikes.add(2, "16 17 18");
-// raterDislikes.add(2, "19 20 21");
-// raterDislikes.add(2, "22 23 24");
-// raterDislikes.add(2, "25 26 27");
-// raterDislikes.add(2, "28 29 30");
-
-// raterLikes.add(3, "ghi");
-// raterLikes.add(3, "jkl");
-// raterLikes.add(3, "mno");
-// raterLikes.add(3, "pqr");
-// raterLikes.add(3, "vwx");
-
-
-// raterDislikes.add(3, "1 2 3");
-// raterDislikes.add(3, "4 5 6");
-// raterDislikes.add(3, "7 8 9");
-// raterDislikes.add(3, "10 11 12");
-// raterDislikes.add(3, "13 14 15");
-// raterDislikes.add(3, "16 17 18");
-// raterDislikes.add(3, "19 20 21");
-// raterDislikes.add(3, "22 23 24");
-// raterDislikes.add(3, "25 26 27");
-// raterDislikes.add(3, "28 29 30");
-
-// raterLikes.add(4, "jkl");
-// raterLikes.add(4, "mno");
-// raterLikes.add(4, "pqr");
-// raterLikes.add(4, "yz");
-
-
-// raterDislikes.add(4, "1 2 3");
-// raterDislikes.add(4, "4 5 6");
-// raterDislikes.add(4, "7 8 9");
-// raterDislikes.add(4, "10 11 12");
-// raterDislikes.add(4, "13 14 15");
-// raterDislikes.add(4, "16 17 18");
-// raterDislikes.add(4, "19 20 21");
-// raterDislikes.add(4, "22 23 24");
-// raterDislikes.add(4, "25 26 27");
-// raterDislikes.add(4, "28 29 30");
 
 setTimeout(function() {
   db.smembers("restaurants:San Francisco", function(err, data) {
@@ -276,7 +197,7 @@ setTimeout(function() {
     for (var j = 5; j < 15; j++) {
       module.exports.rateRestaurant(2, data[j]);
     }
-    for (var k = 8; k < 13; k++) {
+    for (var k = 8; k < 17; k++) {
       module.exports.rateRestaurant(3, data[k]);
     }
 
@@ -322,15 +243,10 @@ var myCallback = function(arg) {
 
 
 
-// setTimeout(function() {
-//     console.log("GET SUGGESTIONS FUNCTION");
-//     console.log(module.exports.getSuggestions(2, myCallback));
-//   }, 10000);
-
-
-db.zscore("1:Similars", "2", function(err, data) {
-    console.log("ZSCORE:  " + data);
-});
+setTimeout(function() {
+    console.log("GET SUGGESTIONS FUNCTION");
+    console.log(module.exports.getSuggestions(2, myCallback));
+  }, 10000);
 
 
 

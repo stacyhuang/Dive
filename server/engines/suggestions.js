@@ -36,6 +36,7 @@ Suggestions.prototype.update = function(userID, cb) {
     return db.smembersAsync(userID + ":potentialList");
   }).
   then(function (potentialList) {
+
     if (potentialList === null || potentialList.length === 0) {
       console.log("NO SUGGESTIONS");
     }
@@ -61,9 +62,9 @@ Suggestions.prototype.update = function(userID, cb) {
           return multi.execAsync();         
         }).
         then(function(zscoreArray) {
-         console.log("USERS WHO LIKED" + rest);
-          console.log(usersWhoLiked);
-          console.log(zscoreArray);
+         // console.log("USERS WHO LIKED" + rest);
+         //  console.log(usersWhoLiked);
+         //  console.log(zscoreArray);
 
           var multi = db.multi();
 
@@ -81,24 +82,25 @@ Suggestions.prototype.update = function(userID, cb) {
           for (var i = 0; i < zscoreArray.length; i++) {
             numerator = numerator - Number(zscoreArray[i]);
           }
-          console.log("");
-          console.log("REST:  " + rest);
-          console.log("USERS WHO DISLIKED");
-          console.log(usersWhoDisliked);
-          console.log(zscoreArray);
-          console.log("NUM USERS WHO LIKED");
-          console.log(usersWhoLiked.length);
-          console.log("NUM USERS WHO DISLIKED");
-          console.log(usersWhoDisliked.length);
-          finalScore = numerator/(usersWhoLiked.length + usersWhoDisliked.length);
-          console.log("NUmerator:  " + numerator);
-          console.log("FINAL SCORE");
-          console.log(finalScore);
-          console.log("");
-
-          db.zadd(userID + ":Suggestions", finalScore, rest);
+          // console.log("");
+          // console.log("REST:  " + rest);
+          // console.log("USERS WHO DISLIKED");
+          // console.log(usersWhoDisliked);
+          // console.log(zscoreArray);
+          // console.log("NUM USERS WHO LIKED");
+          // console.log(usersWhoLiked.length);
+          // console.log("NUM USERS WHO DISLIKED");
+          // console.log(usersWhoDisliked.length);
+          if (numerator !== 0 ) {
+            finalScore = numerator/(usersWhoLiked.length + usersWhoDisliked.length);
+            db.zadd(userID + ":Suggestions", finalScore, rest);
+          }
+          // console.log("NUmerator:  " + numerator);
+          // console.log("FINAL SCORE");
+          // console.log(finalScore);
+          // console.log("");
           if (rest === potentialList[potentialList.length - 1]) {
-            db.zrange(userID + ":Suggestions", 0, -1, function(err, answer) {
+            db.zrangebyscore(userID + ":Suggestions", 0.5, '+inf', function(err, answer) {
               // console.log("SUGGESTIONS FOR " + userID);
               // console.log(answer);
               cb(answer);
