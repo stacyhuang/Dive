@@ -16,7 +16,35 @@ var algorithm = require('../../server/engines/algorithmAPI.js');
 
 algorithm.setStartIndex(1);
 algorithm.setStartIndex(2);
+algorithm.setStartIndex(3);
+
 algorithm.setLocation(1, "San Francisco");
 algorithm.setLocation(2, "San Francisco");
+algorithm.setLocation(3, "San Francisco");
+
+var suggestionsResponse;
+
+var myFunction = function(arg) {
+  suggestionsResponse = arg;
+};
+
+
+
+var myCallback = function(arg) {
+  console.log("Suggestions");
+  console.log(arg);
+};
+
+console.log(algorithm.getSuggestions(1, myCallback));
+console.log(algorithm.getSuggestions(2, myCallback));
+console.log(algorithm.getSuggestions(3, myCallback));
+
+// setTimeout(function() {
+//     console.log("GET SUGGESTIONS FUNCTION");
+//     console.log(algorithm.getSuggestions(2, myCallback));
+//   }, 10000);
+
+
+
 
 

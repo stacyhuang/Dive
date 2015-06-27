@@ -90,9 +90,6 @@ module.exports.setStartIndex = function(userID) {
 module.exports.getSuggestions = function(userID, cb) {
  // - returns array of restaurant records in json format
 
-
-
-
   db.get(userID + ":Location", function(err, location) {
 
     var innerfunc = function() {
@@ -119,10 +116,10 @@ module.exports.getSuggestions = function(userID, cb) {
             console.log("DO WE GET HERE ********************* 3");
             db.get(userID + ":StartIndex", function(err, index) {
               index = Number(index);
-              console.log("INDEX:" + index);
               while ((results.length < 20) && (index < data.length)) {
                 console.log(data[index]);
                 if (ratedList.indexOf(data[index]) === -1 && results.indexOf(data[index]) === -1) {
+                  console.log(userID + ":StartIndex:  " + index);
                   db.incr(userID + ":StartIndex");
                   results.push(data[index]);
                 }
@@ -156,18 +153,6 @@ module.exports.getSuggestions = function(userID, cb) {
   });
 };
 
-
-// module.exports.getUnreviewedRestaurants = function(userID, location) {
-// //  - returns array of restaurant records in json format
-//   var userLikes = userID + ":Likes";
-//   var userDislikes = userID + ":Dislikes";
-//   db.sunionstore("userRated", userLikes, userDislikes);
-//   db.sdiffstore("unreviewedRestaurants", "restaurants:" + location, "userRated");
-//   db.smembers("unreviewedRestaurants", function(err, data) {
-//     return data;
-
-//   });
-// };
 
 module.exports.keep = function(user, restaurantID) {
 // - saves a restaurant ID to user's "keep" list;
@@ -252,26 +237,3 @@ var suggestions = engine.suggestions;
  // suggestions.update(4, myCallback);
 
 //suggestions.update(2);
-var suggestionsResponse;
-
-var myFunction = function(arg) {
-  suggestionsResponse = arg;
-};
-
-
-
-var myCallback = function(arg) {
-  console.log("Suggestions");
-  console.log(arg);
-};
-
-
-
-setTimeout(function() {
-    console.log("GET SUGGESTIONS FUNCTION");
-    console.log(module.exports.getSuggestions(1, myCallback));
-  }, 10000);
-
-
-
-
