@@ -28,11 +28,11 @@
           alert("Please specify a location");
         }else{
           if(this.i === 20){
-            //broadcasts to locationService file asking for new information from the algorithm
+            // broadcasts to locationService file asking for new information from the algorithm
             $rootScope.$broadcast('newInfo');
            }
           else{
-            //posts information
+            // posts information
             return this.info[this.i];
           }
         }

@@ -8,14 +8,15 @@
   LocationCtrl.$inject = ['$scope', '$location', 'LocationFactory', '$rootScope', '$timeout'];
 
   function LocationCtrl($scope, $location, LocationFactory, $rootScope, $timeout){
+  	$scope.search = {};
+    
     // always listening for when the user gets to the end of the list of businesses
     $rootScope.$on('newInfo', function(){
       $timeout(function() {
         // recalls the function below 
         $scope.searchLocation();
       });
-    })
-  	$scope.search = {};
+    });
 
   	$scope.searchLocation = function() {
       // calls LocationFactory with the user inputted location which in turn calls 
