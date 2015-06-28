@@ -10,10 +10,12 @@ var Rater = function(db, kind) {
 
 Rater.prototype.add = function(userID, restaurantID, done) {
   var db = this.db;
-  var userSentimentList = userID + ":" + this.kind;
-  var restaurantSentimentList = restaurantID + ":" + this.kind;
-  db.sadd(userSentimentList, restaurantID);
-  db.sadd(restaurantSentimentList, userID);
+  if (restaurantID !== undefined) {
+    var userSentimentList = userID + ":" + this.kind;
+    var restaurantSentimentList = restaurantID + ":" + this.kind;
+    db.sadd(userSentimentList, restaurantID);
+    db.sadd(restaurantSentimentList, userID);    
+  }
   // db.get(userID + ":Location", function(err, location) {
   //   db.sadd("restaurants:" + location, restaurantID);
   // });

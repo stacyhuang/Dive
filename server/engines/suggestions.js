@@ -40,6 +40,7 @@ Suggestions.prototype.update = function(userID, cb) {
 
     if (potentialList === null || potentialList.length === 0) {
       console.log("NO SUGGESTIONS");
+      cb([]);
     }
 
     potentialList.forEach(function(rest) {

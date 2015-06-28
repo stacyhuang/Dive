@@ -53,12 +53,12 @@ Similars.prototype.update = function(userID) {
 
       for (i = 0; i < compMembersArray.length; i++) {
 
-        console.log(compMembersArray.length);
+//        console.log(compMembersArray.length);
         otherUserLikes = compMembersArray[i] + ":Likes";
         otherUserDislikes = compMembersArray[i] + ":Dislikes";
 
         otherUserList.push(compMembersArray[i]); 
-        console.log(otherUserList);       
+//        console.log(otherUserList);       
         //these are temporary lists, need to clear them somehow
   
         that.db.sinterstore("commonLikes", userLikes, otherUserLikes);
