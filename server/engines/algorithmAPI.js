@@ -207,10 +207,12 @@ setTimeout(function() {
     for (var k = 4; k < 17; k++) {
       module.exports.rateRestaurant(3, data[k]);
     }
+
     module.exports.keep(1, data[12]);
     module.exports.keep(1, data[13]);
 
   });}, 2000);
+
 
 
 setTimeout(function() { module.exports.getSuggestions(2, myCallback); }, 3000);

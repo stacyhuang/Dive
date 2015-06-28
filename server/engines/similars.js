@@ -9,28 +9,27 @@ var Similars = function(db) {
 
 Similars.prototype.byUser = function(userID) {
   // var userSimilarsList = userID + ":Similars";
-  // this.db.smembers(userSimilarsList);  
+  // db.smembers(userSimilarsList);  
 };
 
 Similars.prototype.update = function(userID) {
   var userLikes = userID + ":Likes";
   var userDislikes = userID + ":Dislikes";
-
+  var db = this.db;
   var otherUserList = [];
   var otherUserScore = [];
 
 
-  this.db.sunionstore("userRated", userLikes, userDislikes);
-  var that = this;
-  this.db.smembers("userRated", function(err, restaurantArray) {
+  db.sunionstore("userRated", userLikes, userDislikes);
+  db.smembers("userRated", function(err, restaurantArray) {
     for (var i = 0; i < restaurantArray.length; i++) {
 
-      that.db.sunionstore("comparisonMembers", "comparisonMembers", restaurantArray[i] + ":Likes");
-      that.db.sunionstore("comparisonMembers", "comparisonMembers", restaurantArray[i] + ":Dislikes");
+      db.sunionstore("comparisonMembers", "comparisonMembers", restaurantArray[i] + ":Likes");
+      db.sunionstore("comparisonMembers", "comparisonMembers", restaurantArray[i] + ":Dislikes");
     }
-    that.db.srem("comparisonMembers", userID);
+    db.srem("comparisonMembers", userID);
   
-    that.db.smembers("comparisonMembers", function(err, compMembersArray) {
+    db.smembers("comparisonMembers", function(err, compMembersArray) {
       var comparisonIndex;
       var commonLikes;
       var commonDislikes;
@@ -52,38 +51,38 @@ Similars.prototype.update = function(userID) {
 
         otherUserList.push(compMembersArray[i]); 
 
-        that.db.sinterstore("commonLikes", userLikes, otherUserLikes);
-        that.db.sinterstore("commonDislikes", userDislikes, otherUserDislikes);
-        that.db.sinterstore("conflicts1", userLikes, otherUserDislikes);
-        that.db.sinterstore("conflicts2", userDislikes, otherUserLikes);
-        that.db.sunionstore("allRatedRestaurants", userLikes, otherUserLikes,
+        db.sinterstore("commonLikes", userLikes, otherUserLikes);
+        db.sinterstore("commonDislikes", userDislikes, otherUserDislikes);
+        db.sinterstore("conflicts1", userLikes, otherUserDislikes);
+        db.sinterstore("conflicts2", userDislikes, otherUserLikes);
+        db.sunionstore("allRatedRestaurants", userLikes, otherUserLikes,
                         userDislikes, otherUserDislikes);
 
-        that.db.scard("commonLikes", function(err, commonLikesCount) {
+        db.scard("commonLikes", function(err, commonLikesCount) {
           commonLikesArr.push(commonLikesCount);
         });
 
-        that.db.scard("commonDislikes", function(err, commonDislikesCount) {
+        db.scard("commonDislikes", function(err, commonDislikesCount) {
           commonDislikesArr.push(commonDislikesCount);
         });
 
-        that.db.scard("conflicts1", function(err, conflicts1Count) {
+        db.scard("conflicts1", function(err, conflicts1Count) {
           conflicts1Arr.push(conflicts1Count);
         });
 
-        that.db.scard("conflicts2", function(err, conflicts2Count) {
+        db.scard("conflicts2", function(err, conflicts2Count) {
           conflicts2Arr.push(conflicts2Count);
         });
 
-        that.db.scard("allRatedRestaurants", function(err, allRatedRestaurantsCount) {
+        db.scard("allRatedRestaurants", function(err, allRatedRestaurantsCount) {
           allRatedRestaurantsArr.push(allRatedRestaurantsCount);
           if (compMembersArray.length === commonLikesArr.length) {
             for (var k = 0; k < commonLikesArr.length; k++) {
               comparisonIndex = (Number(commonLikesArr[k]) + Number(commonDislikesArr[k]) -
                        Number(conflicts1Arr[k]) - Number(conflicts2Arr[k])) / Number(allRatedRestaurantsArr[k]);
               console.log("COMPARISON INDEX " + userID + ":  " + compMembersArray[k] + "  " + comparisonIndex);
-              that.db.zadd(userID + ":Similars", comparisonIndex, compMembersArray[k]);
-              that.db.zrange(userID + ":Similars", 0, -1, function(err, answer) {
+              db.zadd(userID + ":Similars", comparisonIndex, compMembersArray[k]);
+              db.zrange(userID + ":Similars", 0, -1, function(err, answer) {
               });
             }
           }

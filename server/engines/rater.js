@@ -2,6 +2,11 @@ var redis = require('redis');
 var Promise = require("bluebird");
 Promise.promisifyAll(require("redis"));
 
+// The Rater class is used to add restaurants to a user's 
+// "Likes" or "Dislikes" list.  One instance of the Rater
+// class is created for the "Likes" list, and a separate
+// instance is created for the "Dislikes" list.
+
 var Rater = function(db, kind) {
   this.db = db;
   this.kind = kind;
