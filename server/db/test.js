@@ -1,15 +1,9 @@
 var algorithm = require('./database.js');
 var Promise = require("bluebird");
-//var yelp = require("./yelpdata.js").yelp;
 Promise.promisifyAll(require("redis"));
 
 var algorithm = require('../../server/engines/algorithmAPI.js');
 
-// algorithm.rateRestaurant(75, "McDonalds", 0);
-// db.smembers("75:Dislikes", function(err, data) {
-//   console.log("ZZZZ");
-//   console.log(data);
-// });
 
 //algorithm.importYelpRestaurants("San Francisco");
 

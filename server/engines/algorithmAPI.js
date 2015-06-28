@@ -25,7 +25,6 @@ var importYelpRestaurants = function(location, cb) {
   var firstloop = true;
   for (offset = 0; offset < 500; offset=offset+20) {
     yelp.search({term: queryName, location: queryLocation, sort: 0, offset: offset }, function(error, data) {
-   //   console.log(data);
       if (!data) {
         cb(false);
       }
@@ -35,7 +34,6 @@ var importYelpRestaurants = function(location, cb) {
         var description = "";
         for (var i = 0; i < data.businesses.length; i++) {
           restaurant = data.businesses[i];
-  //        console.log(restaurant.id);
           for (var j = 0; j < restaurant.categories.length; j++) {
             description = description + restaurant.categories[j][0];
             if (j !== restaurant.categories.length - 1) {
@@ -95,22 +93,17 @@ module.exports.getSuggestions = function(userID, cb) {
       var results = [];
 
       engine.suggestions.update(userID, function(suggestions) {
-        var maxResults = 5;
+        var maxResults = 20;
         var limit = Math.min(maxResults, suggestions.length);
         for (var i = 0; i < limit; i++) {
           results.push(suggestions[i]);
         }
 
         db.sunionstore("ratedList", likesList, dislikesList);
-
         db.smembers(restaurantList, function(err, data) {
-          // console.log("RESTAURANT LIST");
-          // console.log(data);
-
           db.smembers("ratedList", function(err, ratedList) {
             var index = 0;
             while ((results.length < maxResults) && (index < data.length)) {
-              console.log(userID + " : " + data[index]);
               if (ratedList.indexOf(data[index]) === -1 && results.indexOf(data[index]) === -1) {
                 results.push(data[index]);
               }
@@ -170,17 +163,8 @@ module.exports.getKept = function(user, cb) {
   });
 };
 
-
-// setTimeout(function() {
-// db.hgetall("fog-harbor-fish-house-san-francisco-2", function(err, data) {
-//   console.log("FOG HARBOR");
-//   console.log(data.description);
-// })}, 2000);
-
-// setTimeout(function() {
-//   db.scard("restaurants:San Francisco", function(err, data) {
-//     console.log("RESTAURANT LIST LENGTH:  " + data);
-//   })}, 3000);
+// ************************************************************
+// ALL CODE BELOW IS JUST FOR TESTING -- DELETE 
 
 var raterLikes = engine.likes;
 var raterDislikes = engine.dislikes;
@@ -191,13 +175,10 @@ var myFunction = function(arg) {
   suggestionsResponse = arg;
 };
 
-
-
 var myCallback = function(arg) {
   console.log("Suggestions");
   console.log(arg);
 };
-
 
 var myCallback2 = function(arg) {
   console.log("KEPT STUFF*****");
@@ -232,27 +213,8 @@ setTimeout(function() {
   });}, 2000);
 
 
-//raterLikes.itemsByUser(2);
-
-// raterLikes.usersByItem("vwx");
-// db.smembers("1:Likes", function(err, data) {
-//   console.log("MEMBERS OF 1: " + data);
-// });
-
-//setTimeout(function() { module.exports.getSuggestions(2, myCallback); }, 3000);
 setTimeout(function() { module.exports.getSuggestions(2, myCallback); }, 3000);
 setTimeout(function() { module.exports.getSuggestions(3, myCallback); }, 3000);
    
 setTimeout(function() { module.exports.getKept(1, myCallback2); }, 3000);
-
-// setTimeout(function() { suggestions.update(1); }, 100);
-// setTimeout(function() { suggestions.update(2); }, 3000);
-
-// suggestions.update(2, myCallback);
- // suggestions.update(3, myCallback);
- // suggestions.update(4, myCallback);
-
-//suggestions.update(2);
-
-
 

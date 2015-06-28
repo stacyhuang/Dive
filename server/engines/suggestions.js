@@ -1,6 +1,5 @@
 var redis = require('redis');
 var Promise = require("bluebird");
-//var yelp = require("./yelpdata.js").yelp;
 Promise.promisifyAll(require("redis"));
 
 var Suggestions = function(db) {
@@ -14,7 +13,6 @@ Suggestions.prototype.forUser = function(userID) {
     return data;
   });
 };
-
 
 Suggestions.prototype.update = function(userID, cb) {
 //  GET USER'S UNRATED RESTAURANTS THAT
@@ -64,16 +62,11 @@ Suggestions.prototype.update = function(userID, cb) {
           return multi.execAsync();         
         }).
         then(function(zscoreArray) {
-         // console.log("USERS WHO LIKED" + rest);
-         //  console.log(usersWhoLiked);
-         //  console.log(zscoreArray);
 
           var multi = db.multi();
-
           for (var i = 0; i < zscoreArray.length; i++) {
             numerator = numerator + Number(zscoreArray[i]);
           }
-          // return multi.discardAsync();
 
           usersWhoDisliked.forEach(function(user) {
             multi.zscore(userID + ":Similars", user);
@@ -84,27 +77,12 @@ Suggestions.prototype.update = function(userID, cb) {
           for (var i = 0; i < zscoreArray.length; i++) {
             numerator = numerator - Number(zscoreArray[i]);
           }
-          // console.log("");
-          // console.log("REST:  " + rest);
-          // console.log("USERS WHO DISLIKED");
-          // console.log(usersWhoDisliked);
-          // console.log(zscoreArray);
-          // console.log("NUM USERS WHO LIKED");
-          // console.log(usersWhoLiked.length);
-          // console.log("NUM USERS WHO DISLIKED");
-          // console.log(usersWhoDisliked.length);
           if (numerator !== 0 ) {
             finalScore = numerator/(usersWhoLiked.length + usersWhoDisliked.length);
             db.zadd(userID + ":Suggestions", finalScore, rest);
           }
-          // console.log("NUmerator:  " + numerator);
-          // console.log("FINAL SCORE");
-          // console.log(finalScore);
-          // console.log("");
           if (rest === potentialList[potentialList.length - 1]) {
             db.zrangebyscore(userID + ":Suggestions", 0.5, '+inf', function(err, answer) {
-              // console.log("SUGGESTIONS FOR " + userID);
-              // console.log(answer);
               cb(answer);
             });
           }
