@@ -1,4 +1,3 @@
-/* Empty. Add your own CSS if you like */
 .search .scroll-content{
   display: table !important;
   width: 100% !important;
@@ -17,8 +16,19 @@
 }
 
 a{
-	text-decoration: none;
+  text-decoration: none;
   color: inherit;
+}
+
+.down-beer{
+  position: absolute;
+  top: 25px;
+  left: 15px;
+  transform: rotate(180deg);
+  -webkit-transform: rotate(180deg);
+  -moz-transform: rotate(180deg);
+  -ms-transform: rotate(180deg);
+  -o-transform: rotate(180deg);
 }
 
 /*.card {
@@ -74,13 +84,3 @@ a{
   transform: rotate(180deg);
 }*/
 
-.down-beer{
-  position: absolute;
-  top: 25px;
-  left: 15px;
-  transform: rotate(180deg);
-  -webkit-transform: rotate(180deg);
-  -moz-transform: rotate(180deg);
-  -ms-transform: rotate(180deg);
-  -o-transform: rotate(180deg);
-}
