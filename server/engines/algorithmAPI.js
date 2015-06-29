@@ -1,3 +1,6 @@
+// This is the module that contains all the API functions
+// to be used by our routes.
+
 var redis = require('redis');
 var Promise = require("bluebird");
 Promise.promisifyAll(require("redis"));
@@ -10,8 +13,9 @@ var engine = new Engine(db);
 
 
 var importYelpRestaurants = function(location, cb) {
-  // - takes raw yelp json data and places all the restaurant records
-  //  in the database of restaurants
+
+// Helper function that imports 1000 restaurants from Yelp
+// at a given location and loads them into our redis database
 
   var yelp = require("yelp").createClient({
     consumer_key: "KjdDsNphOnZeY8w3YxJVcw", 
@@ -23,7 +27,7 @@ var importYelpRestaurants = function(location, cb) {
   var queryName = "restaurant";
   var queryLocation = location;
   var firstloop = true;
-  for (offset = 0; offset < 500; offset=offset+20) {
+  for (var offset = 0; offset < 1000; offset=offset+20) {
     yelp.search({term: queryName, location: queryLocation, sort: 0, offset: offset }, function(error, data) {
       if (!data) {
         cb(false);
@@ -62,8 +66,9 @@ var importYelpRestaurants = function(location, cb) {
 
 
 module.exports.rateRestaurant = function(user, restaurantID, feeling) {
-  // - adds restaurant ID to users "like" or "dislike" list and
-  //   returns 'success' or 'failure'
+
+// rateRestaurant method adds a restaurant ID to users "like" or "dislike" list
+
   if (restaurantID !== undefined) {
     if (feeling === 0) {
       engine.dislikes.add(user, restaurantID);
@@ -77,12 +82,30 @@ module.exports.rateRestaurant = function(user, restaurantID, feeling) {
 };
 
 module.exports.setLocation = function(userID, location) {
- // - returns array of restaurant records in json format
+
+// setLocation method saves the location of the user in the 
+// redis database under the key "{userID}:Location".
+// This must be done before calling any of the other functions
+// in this module, as they are dependent on this information.
+
   db.set(userID + ":Location", location);
 };
 
 module.exports.getSuggestions = function(userID, cb) {
- // - returns array of restaurant records in json format
+
+// getSuggestions method passes a list of 20 restaurant suggestions
+// to the callback function supplied as an argument.  The list is
+// an array of objects, each of which contains the following
+// properties: name, id, image, description.
+
+// An engine object is used to calculate suggestions following the
+// recommendations algorithm.  If less than 20 suggestions are returned
+// by the engine, randomly chosen Yelp restaurants that the user
+// has not yet reviewed are used to fill in the balance.
+
+// If no restaurants at the user's location have been
+// previously loaded into the database, this method automatically calls the
+// the Yelp API and downloads them.
 
   db.get(userID + ":Location", function(err, location) {
 
@@ -92,6 +115,8 @@ module.exports.getSuggestions = function(userID, cb) {
       var dislikesList = userID + ":Dislikes";
       var results = [];
 
+  // Get up to 20 suggestions using the recommendation engine
+
       engine.suggestions.update(userID, function(suggestions) {
         var maxResults = 20;
         var limit = Math.min(maxResults, suggestions.length);
@@ -99,10 +124,17 @@ module.exports.getSuggestions = function(userID, cb) {
           results.push(suggestions[i]);
         }
 
+  // Get list of restaurants that user has already rated
+
         db.sunionstore("ratedList", likesList, dislikesList);
         db.smembers(restaurantList, function(err, data) {
           db.smembers("ratedList", function(err, ratedList) {
             var index = 0;
+  
+  // If the number of suggestions returned by recommendations engine is less
+  // than 20, fill in the balance with restaurants from the database that the
+  // user has not yet rated
+
             while ((results.length < maxResults) && (index < data.length)) {
               if (ratedList.indexOf(data[index]) === -1 && results.indexOf(data[index]) === -1) {
                 results.push(data[index]);
@@ -123,6 +155,9 @@ module.exports.getSuggestions = function(userID, cb) {
       });
     };
 
+    // If no restaurants at the user's location have been loaded into our
+    // database, call the Yelp API and load them
+
     db.exists("restaurants:" + location, function(err, doesExist) {
       if (!doesExist) {
         importYelpRestaurants(location, innerfunc);
@@ -136,9 +171,10 @@ module.exports.getSuggestions = function(userID, cb) {
   });
 };
 
-
 module.exports.keep = function(user, restaurantID) {
-// - saves a restaurant ID to user's "keep" list;
+
+// Saves a restaurant to user's "kept" list;
+
   var keptList = user + ":Kept";
 
   if (restaurantID !== undefined) {
@@ -147,7 +183,11 @@ module.exports.keep = function(user, restaurantID) {
 };
 
 module.exports.getKept = function(user, cb) {
-// - returns array of restaurant records in json format
+
+// Passes array of javascript objects to the callback function
+// passed as an argument.  The objects represent restaurant
+// records saved in the user's "kept" list.
+
   var keptList = user + ":Kept";
   var results = [];
   db.smembers(keptList, function(err, data) {

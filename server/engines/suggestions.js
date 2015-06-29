@@ -20,9 +20,9 @@ Suggestions.prototype.update = function(userID, cb) {
   var userKept = userID + ":Kept";
   var db = this.db;
 
-  // Get list of all restaurants that user has rated
+  // Get list of all restaurants that user has rated or kept
 
-  db.sunionstoreAsync(userID + ":userRatedRestaurants", userLikes, userDislikes).
+  db.sunionstoreAsync(userID + ":userRatedRestaurants", userLikes, userDislikes, userKept).
   then(function () {
     return db.getAsync(userID + ":Location");
   }).

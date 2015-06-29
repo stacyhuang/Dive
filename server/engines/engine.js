@@ -6,7 +6,8 @@ var Rater = require('./rater.js');
 var Similars = require('./similars.js');
 var Suggestions = require('./suggestions.js');
 
-// Engine is the class used to interact with the recommendation algorithm.
+// Engine is the class that consolidates all the functionality of 
+// the recommendation algorithm.
 // A Redis database is passed as an argument during creation.
 
 var Engine = function(db){

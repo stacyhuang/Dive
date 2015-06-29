@@ -22,6 +22,8 @@ Rater.prototype.add = function(userID, restaurantID, done) {
   }
 };
 
+// FOLLOWING FUNCTIONS BELOW NOT USED
+
 Rater.prototype.remove = function(userID, restaurantID, done) {
   var userSentimentList = userID + ":" + this.kind;
   var restaurantSentimentList = restaurantID + ":" + this.kind;
