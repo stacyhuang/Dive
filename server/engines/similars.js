@@ -16,80 +16,61 @@ Similars.prototype.update = function(userID) {
   var userLikes = userID + ":Likes";
   var userDislikes = userID + ":Dislikes";
   var db = this.db;
-  var otherUserList = [];
-  var otherUserScore = [];
 
-
-  db.sunionstore("userRated", userLikes, userDislikes);
-  db.smembers("userRated", function(err, restaurantArray) {
-    for (var i = 0; i < restaurantArray.length; i++) {
-
-      db.sunionstore("comparisonMembers", "comparisonMembers", restaurantArray[i] + ":Likes");
-      db.sunionstore("comparisonMembers", "comparisonMembers", restaurantArray[i] + ":Dislikes");
+  db.sunionAsync(userLikes, userDislikes).
+  then(function(userRatedRests) {
+    //NEED TO CLEAR "COMPARISON MEMBERS" !!!!!!
+    console.log("USERRATED RESTS");
+    console.log(userRatedRests);
+    db.del("comparisonMembers");
+    for (var i = 0; i < userRatedRests.length; i++) {
+      db.sunionstore("comparisonMembers", "comparisonMembers", userRatedRests[i] + ":Likes");
+      db.sunionstore("comparisonMembers", "comparisonMembers", userRatedRests[i] + ":Dislikes");
     }
-    db.srem("comparisonMembers", userID);
-  
+    db.srem("comparisonMembers", userID); 
     db.smembers("comparisonMembers", function(err, compMembersArray) {
-      var comparisonIndex;
-      var commonLikes;
-      var commonDislikes;
-      var conflicts1;
-      var conflicts2;      
-      var otherUserLikes;
-      var otherUserDislikes;
+      compMembersArray.forEach(function(member) {
+        var commonLikes;
+        var commonDislikes;
+        var conflicts1;
+        var conflicts2;
+        var allRatedRestaurants;
 
-      var commonLikesArr = [];
-      var commonDislikesArr = [];
-      var conflicts1Arr = [];
-      var conflicts2Arr = [];
-      var allRatedRestaurantsArr = [];
+        var otherUserLikes = member + ":Likes";
+        var otherUserDislikes = member + ":Dislikes";
+        db.sinterAsync(userLikes, otherUserLikes).
+        then(function(answer) {
+          commonLikes = answer;
+          return db.sinterAsync(userDislikes, otherUserDislikes);
+        }).
+        then(function(answer) {
+          commonDislikes = answer;
+          return db.sinterAsync(userLikes, otherUserDislikes);
+        }).
+        then(function(answer) {
+          conflicts1 = answer;
+          return db.sinterAsync(userDislikes, otherUserLikes);
+        }).
+        then(function(answer) {
+          conflicts2 = answer;
+          return db.sunionAsync(userLikes, otherUserLikes,
+                                userDislikes, otherUserDislikes);
+        }).
+        then(function(answer) {
+          allRatedRestaurants = answer;
+          var comparisonIndex = (commonLikes.length + commonDislikes.length -
+                                 conflicts1.length - conflicts2.length) /
+                                 allRatedRestaurants.length;
 
-      for (i = 0; i < compMembersArray.length; i++) {
+          console.log("COMPARISON INDEX " + userID + ":  " + member + "  " + comparisonIndex);
 
-        otherUserLikes = compMembersArray[i] + ":Likes";
-        otherUserDislikes = compMembersArray[i] + ":Dislikes";
+          db.zadd(userID + ":Similars", comparisonIndex, member);
+          db.zadd(member + ":Similars", comparisonIndex, userID);
 
-        otherUserList.push(compMembersArray[i]); 
-
-        db.sinterstore("commonLikes", userLikes, otherUserLikes);
-        db.sinterstore("commonDislikes", userDislikes, otherUserDislikes);
-        db.sinterstore("conflicts1", userLikes, otherUserDislikes);
-        db.sinterstore("conflicts2", userDislikes, otherUserLikes);
-        db.sunionstore("allRatedRestaurants", userLikes, otherUserLikes,
-                        userDislikes, otherUserDislikes);
-
-        db.scard("commonLikes", function(err, commonLikesCount) {
-          commonLikesArr.push(commonLikesCount);
         });
-
-        db.scard("commonDislikes", function(err, commonDislikesCount) {
-          commonDislikesArr.push(commonDislikesCount);
-        });
-
-        db.scard("conflicts1", function(err, conflicts1Count) {
-          conflicts1Arr.push(conflicts1Count);
-        });
-
-        db.scard("conflicts2", function(err, conflicts2Count) {
-          conflicts2Arr.push(conflicts2Count);
-        });
-
-        db.scard("allRatedRestaurants", function(err, allRatedRestaurantsCount) {
-          allRatedRestaurantsArr.push(allRatedRestaurantsCount);
-          if (compMembersArray.length === commonLikesArr.length) {
-            for (var k = 0; k < commonLikesArr.length; k++) {
-              comparisonIndex = (Number(commonLikesArr[k]) + Number(commonDislikesArr[k]) -
-                       Number(conflicts1Arr[k]) - Number(conflicts2Arr[k])) / Number(allRatedRestaurantsArr[k]);
-              console.log("COMPARISON INDEX " + userID + ":  " + compMembersArray[k] + "  " + comparisonIndex);
-              db.zadd(userID + ":Similars", comparisonIndex, compMembersArray[k]);
-              db.zrange(userID + ":Similars", 0, -1, function(err, answer) {
-              });
-            }
-          }
-        });
-      }
+      });
     });
-});
+  });
 };
 
 module.exports = Similars;

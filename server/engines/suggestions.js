@@ -29,7 +29,7 @@ Suggestions.prototype.update = function(userID, cb) {
     return db.getAsync(userID + ":Location");
   }).
   then(function (location) {
-    return db.sdiffstoreAsync(userID + ":potentialList", "restaurants:" + location, userID + ":userRatedRestaurants" );
+    return db.sdiffAsync(userID + ":potentialList", "restaurants:" + location, userID + ":userRatedRestaurants" );
   }).
   then(function () {
     return db.smembersAsync(userID + ":potentialList");
