@@ -18,6 +18,7 @@
         // retrieves information from the algorithm to be set to info. This occurs in the beginning and
         // everytime the user gets to the end of the info array.
         this.info = data;
+        console.log(data);
         // reset to 0 to cycle through new information
         this.i = 0;
       }
@@ -29,7 +30,7 @@
         if(this.info.length === 0){
           alert("Please specify a location");
         }else{
-          if(this.i === 5){
+          if(this.i === 20){
             // broadcasts to locationService file asking for new information from the algorithm
             $rootScope.$broadcast('newInfo');
            }

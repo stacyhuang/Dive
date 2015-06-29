@@ -51,6 +51,7 @@ var yelp = require("yelp").createClient({
       var userId = req.body.userId;
 
       algorithm.rateRestaurant(userId, restaurantID, queryfeeling);
+      res.send(200);
 
     }
 

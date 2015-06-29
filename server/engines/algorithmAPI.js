@@ -216,56 +216,56 @@ module.exports.getKept = function(user, cb) {
 // ************************************************************
 // ALL CODE BELOW IS JUST FOR TESTING -- DELETE 
 
-var raterLikes = engine.likes;
-var raterDislikes = engine.dislikes;
-var similars = engine.similars;
-var suggestions = engine.suggestions;
+// var raterLikes = engine.likes;
+// var raterDislikes = engine.dislikes;
+// var similars = engine.similars;
+// var suggestions = engine.suggestions;
 
-var myFunction = function(arg) {
-  suggestionsResponse = arg;
-};
+// var myFunction = function(arg) {
+//   suggestionsResponse = arg;
+// };
 
-var myCallback = function(arg) {
-  console.log("Suggestions");
-  console.log(arg);
-};
+// var myCallback = function(arg) {
+//   console.log("Suggestions");
+//   console.log(arg);
+// };
 
-var myCallback2 = function(arg) {
-  console.log("KEPT STUFF*****");
-  console.log(arg);
-};
+// var myCallback2 = function(arg) {
+//   console.log("KEPT STUFF*****");
+//   console.log(arg);
+// };
 
-module.exports.setLocation(1, "San Francisco");
-module.exports.setLocation(2, "San Francisco");
-module.exports.setLocation(3, "San Francisco");
-module.exports.setLocation(4, "San Francisco");
-module.exports.getSuggestions(1, myCallback);
-
-
-setTimeout(function() {
-  db.smembers("restaurants:San Francisco", function(err, data) {
-    console.log("INSIDE LLOP");
-    for (var i = 0; i < 20; i++) {
-      console.log(data[i]);
-    }
-    for (var i = 0; i < 10; i++) {
-      module.exports.rateRestaurant(1, data[i]);
-    }
-    for (var j = 3; j < 15; j++) {
-      module.exports.rateRestaurant(2, data[j]);
-    }
-    for (var k = 4; k < 17; k++) {
-      module.exports.rateRestaurant(3, data[k]);
-    }
-
-    module.exports.keep(2, data[15]);
-
-  });}, 3000);
+// module.exports.setLocation(1, "San Francisco");
+// module.exports.setLocation(2, "San Francisco");
+// module.exports.setLocation(3, "San Francisco");
+// module.exports.setLocation(4, "San Francisco");
+// module.exports.getSuggestions(1, myCallback);
 
 
+// setTimeout(function() {
+//   db.smembers("restaurants:San Francisco", function(err, data) {
+//     console.log("INSIDE LLOP");
+//     for (var i = 0; i < 20; i++) {
+//       console.log(data[i]);
+//     }
+//     for (var i = 0; i < 10; i++) {
+//       module.exports.rateRestaurant(1, data[i]);
+//     }
+//     for (var j = 3; j < 15; j++) {
+//       module.exports.rateRestaurant(2, data[j]);
+//     }
+//     for (var k = 4; k < 17; k++) {
+//       module.exports.rateRestaurant(3, data[k]);
+//     }
+
+//     module.exports.keep(2, data[15]);
+
+//   });}, 3000);
 
 
- setTimeout(function() { module.exports.getSuggestions(2, myCallback); }, 4000);
+
+
+//  setTimeout(function() { module.exports.getSuggestions(2, myCallback); }, 4000);
 // setTimeout(function() { module.exports.getSuggestions(3, myCallback); }, 4000);
    
 // setTimeout(function() { module.exports.getKept(1, myCallback2); }, 3000);
