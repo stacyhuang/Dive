@@ -1,3 +1,5 @@
+var algorithm = require('../../server/engines/algorithmAPI.js');
+
 var yelp = require("yelp").createClient({
   consumer_key: "KjdDsNphOnZeY8w3YxJVcw", 
   consumer_secret: "6itM-P0nsf2qYvPpQCfnU6BABd0",
@@ -10,18 +12,26 @@ var yelp = require("yelp").createClient({
 
  module.exports = {
     searchQuery: function(req, res){
-
-        var queryName = req.body.term
-        var queryLocation = req.body.location
+        var queryName = req.body.term;
+        var queryLocation = req.body.location;
+        var userId = req.body.userId;
         
         console.log("REQ name", queryName)
         console.log("REQ location", queryLocation)
 
-        yelp.search({term: queryName, location: queryLocation}, function(error, data) {
-          console.log(error);
-          console.log(data);
-          res.send(200, data)
+        algorithm.setLocation(userId, queryLocation);
+        algorithm.getSuggestions(userId, function(data){
+          res.send(200, data);
         });
+
+
+        // Querying data directly from the Yelp API
+
+        // yelp.search({term: queryName, location: queryLocation}, function(error, data) {
+        //   console.log(error);
+        //   console.log(data);
+        //   res.send(200, data)
+        // });
     },
 
     businessQuery: function(req, res){
@@ -34,5 +44,15 @@ var yelp = require("yelp").createClient({
       })
 
     },
+
+    feelingQuery: function(req, res){
+      var queryfeeling = req.body.feeling;
+      var restaurantID = req.body.restaurantID;
+      var userId = req.body.userId;
+
+      algorithm.rateRestaurant(userId, restaurantID, queryfeeling);
+      res.send(200);
+
+    }
 
  }

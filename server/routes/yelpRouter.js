@@ -1,11 +1,15 @@
 var yelpController = require('./yelpController.js')
 
 module.exports = function(app){
+		console.log("called");
     app.route('/search/*')
         .post(yelpController.searchQuery)
 
     app.route('/business/')
         .post(yelpController.businessQuery)
+
+    app.route('/feeling/')
+        .post(yelpController.feelingQuery)
 }
 
 
