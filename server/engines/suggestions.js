@@ -2,15 +2,18 @@ var redis = require('redis');
 var Promise = require("bluebird");
 Promise.promisifyAll(require("redis"));
 
+// The Suggestions class is used to generate suggestions
+// for the user.
+
 var Suggestions = function(db) {
   this.db = db;
 };
 
-Suggestions.prototype.forUser = function(userID) {
+Suggestions.prototype.forUser = function(userID, cb) {
   var db = this.db;
   var suggestionList = userID + ":Suggestions";
   db.smembers(suggestionList, function(err, data) {
-    return data;
+    cb(data);
   });
 };
 
