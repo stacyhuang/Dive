@@ -38,7 +38,6 @@ Suggestions.prototype.update = function(userID, cb) {
     return db.smembersAsync(userID + ":potentialList");
   }).
   then(function (potentialList) {
-
     if (potentialList === null || potentialList.length === 0) {
       cb([]);
     }
