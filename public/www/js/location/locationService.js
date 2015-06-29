@@ -9,9 +9,7 @@
 
       // sends post request to algorithm asking for suggestions in the form of yelp businesses
       var searchLocation = function (location) {
-        console.log("Called searchLocation");
         var userId = window.localStorage['userId'];
-        console.log("userId: " + userId);
         return $http({
           method: 'POST',
           url: serverUrl + '/yelpapi/search/',

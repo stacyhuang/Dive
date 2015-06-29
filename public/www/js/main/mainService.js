@@ -41,14 +41,24 @@
         }
       }
 
-      /*
-      this.saveCard = function(){
-          //send information to mongodb to save place for tht specific user
+      
+      this.saveCard = function(id){
+        //send information to mongodb to save place for tht specific user
+        return $http({
+          method: 'POST',
+          url: serverUrl + '/yelpapi/bookmark/',
+          // specifying to only search for bars and only at the location they inputted
+          data: {restaurantID: id, userId: window.localStorage['userId']},
+          contentType: "application/json"
+        })
+        .then(function (resp) {
+          // upon return of data, send it to CardService's retrieve function in the form of an arrays
+          console.log(resp.data);
+        });
       }
-      */
+      
 
       this.plusLeft = function(id){
-        console.log('left');
         //Send information to algorithm (negative)
         return $http({
           method: 'POST',
@@ -64,7 +74,6 @@
       }
 
       this.plusRight = function(id){
-        console.log('right');
         //Send information to algorithm (positive)
         return $http({
           method: 'POST',
