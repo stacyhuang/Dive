@@ -24,12 +24,12 @@ Suggestions.prototype.update = function(userID, cb) {
   var userKept = userID + ":Kept";
   var db = this.db;
 
-  db.sunionstoreAsync(userID + ":userRatedRestaurants", userLikes, userDislikes, userKept).
+  db.sunionstoreAsync(userID + ":userRatedRestaurants", userLikes, userDislikes).
   then(function () {
     return db.getAsync(userID + ":Location");
   }).
   then(function (location) {
-    return db.sdiffAsync(userID + ":potentialList", "restaurants:" + location, userID + ":userRatedRestaurants" );
+    return db.sdiffstoreAsync(userID + ":potentialList", "restaurants:" + location, userID + ":userRatedRestaurants" );
   }).
   then(function () {
     return db.smembersAsync(userID + ":potentialList");
@@ -83,6 +83,7 @@ Suggestions.prototype.update = function(userID, cb) {
           }
           if (rest === potentialList[potentialList.length - 1]) {
             db.zrangebyscore(userID + ":Suggestions", 0.5, '+inf', function(err, answer) {
+              answer = answer.reverse();
               cb(answer);
             });
           }

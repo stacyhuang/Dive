@@ -93,7 +93,9 @@ module.exports.getSuggestions = function(userID, cb) {
       var results = [];
 
       engine.suggestions.update(userID, function(suggestions) {
-        var maxResults = 5;
+        var maxResults = 20;
+        console.log("JUST SUGGESTIONS");
+        console.log(suggestions);
         var limit = Math.min(maxResults, suggestions.length);
         for (var i = 0; i < limit; i++) {
           results.push(suggestions[i]);
@@ -176,8 +178,8 @@ var myFunction = function(arg) {
 };
 
 var myCallback = function(arg) {
-  console.log("Suggestions");
-  console.log(arg);
+  // console.log("Suggestions");
+  // console.log(arg);
 };
 
 var myCallback2 = function(arg) {
@@ -189,40 +191,35 @@ module.exports.setLocation(1, "San Francisco");
 module.exports.setLocation(2, "San Francisco");
 module.exports.setLocation(3, "San Francisco");
 module.exports.setLocation(4, "San Francisco");
-//module.exports.getSuggestions(1, myCallback);
+module.exports.getSuggestions(1, myCallback);
 
 
-// setTimeout(function() {
-//   db.smembers("restaurants:San Francisco", function(err, data) {
-//     console.log("INSIDE LLOP");
-//     for (var i = 0; i < 20; i++) {
-//       console.log(data[i]);
-//     }
-//     for (var i = 0; i < 10; i++) {
-//       module.exports.rateRestaurant(1, data[i]);
-//     }
-//     for (var j = 3; j < 15; j++) {
-//       module.exports.rateRestaurant(2, data[j]);
-//     }
-//     for (var k = 4; k < 17; k++) {
-//       module.exports.rateRestaurant(3, data[k]);
-//     }
+setTimeout(function() {
+  db.smembers("restaurants:San Francisco", function(err, data) {
+    console.log("INSIDE LLOP");
+    for (var i = 0; i < 20; i++) {
+      console.log(data[i]);
+    }
+    for (var i = 0; i < 10; i++) {
+      module.exports.rateRestaurant(1, data[i]);
+    }
+    for (var j = 3; j < 15; j++) {
+      module.exports.rateRestaurant(2, data[j]);
+    }
+    for (var k = 4; k < 17; k++) {
+      module.exports.rateRestaurant(3, data[k]);
+    }
 
-//     module.exports.keep(1, data[12]);
-//     module.exports.keep(1, data[13]);
+    module.exports.keep(1, data[12]);
+    module.exports.keep(1, data[13]);
 
-//   });}, 2000);
-
-
-module.exports.rateRestaurant(1, "abc", 1);
-
-
-module.exports.rateRestaurant(2, "efg", 1);
+  });}, 3000);
 
 
 
-// setTimeout(function() { module.exports.getSuggestions(2, myCallback); }, 3000);
-// setTimeout(function() { module.exports.getSuggestions(3, myCallback); }, 3000);
+
+ setTimeout(function() { module.exports.getSuggestions(2, myCallback); }, 4000);
+// setTimeout(function() { module.exports.getSuggestions(3, myCallback); }, 4000);
    
 // setTimeout(function() { module.exports.getKept(1, myCallback2); }, 3000);
 

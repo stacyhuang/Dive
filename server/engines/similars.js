@@ -19,9 +19,6 @@ Similars.prototype.update = function(userID) {
 
   db.sunionAsync(userLikes, userDislikes).
   then(function(userRatedRests) {
-    //NEED TO CLEAR "COMPARISON MEMBERS" !!!!!!
-    console.log("USERRATED RESTS");
-    console.log(userRatedRests);
     db.del("comparisonMembers");
     for (var i = 0; i < userRatedRests.length; i++) {
       db.sunionstore("comparisonMembers", "comparisonMembers", userRatedRests[i] + ":Likes");
