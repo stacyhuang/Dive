@@ -161,9 +161,13 @@ module.exports.getSuggestions = function(userID, cb) {
 
     // If no restaurants at the user's location have been loaded into our
     // database, call the Yelp API and load them
-
+    //db.get(userId + ":Location", function(err, location){})
     db.exists("restaurants:" + location, function(err, doesExist) {
-      if (!doesExist) {
+      if (doesExist === 0) {
+        console.log(location);
+        console.log("IS THIS CALLED?");
+        console.log("DOESEXIST: " + doesExist);
+        console.log("ERROR: " + err);
         importYelpRestaurants(location, innerfunc);
       }
       else

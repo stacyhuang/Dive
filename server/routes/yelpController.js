@@ -45,4 +45,13 @@ var yelp = require("yelp").createClient({
 
     },
 
+    feelingQuery: function(req, res){
+      var queryfeeling = req.body.feeling;
+      var restaurantID = req.body.restaurantID;
+      var userId = req.body.userId;
+
+      algorithm.rateRestaurant(userId, restaurantID, queryfeeling);
+
+    }
+
  }

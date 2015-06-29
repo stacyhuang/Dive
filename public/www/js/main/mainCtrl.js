@@ -21,7 +21,9 @@
     $scope.onTapLeft = function(){
       // function call to algorithm which returns that yelp business,
       // userID, and a positive or negative reaction
-      CardService.plusLeft();
+      if($scope.card !== undefined){
+        CardService.plusLeft($scope.card.id);  
+      }
       // turns up the next card in the list
       $scope.card = CardService.addCard(CardService.i);
       // points to the following card in the list for next time
@@ -29,7 +31,9 @@
     }
 
     $scope.onTapRight = function(){
-      CardService.plusRight();
+      if($scope.card !== undefined){
+        CardService.plusRight($scope.card.id);  
+      }
       $scope.card = CardService.addCard(CardService.i);
       CardService.i+=1;
     }
