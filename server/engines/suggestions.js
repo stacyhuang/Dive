@@ -37,7 +37,6 @@ Suggestions.prototype.update = function(userID, cb) {
   then(function (potentialList) {
 
     if (potentialList === null || potentialList.length === 0) {
-      console.log("NO SUGGESTIONS");
       cb([]);
     }
 

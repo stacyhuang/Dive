@@ -59,8 +59,6 @@ Similars.prototype.update = function(userID) {
                                  conflicts1.length - conflicts2.length) /
                                  allRatedRestaurants.length;
 
-          console.log("COMPARISON INDEX " + userID + ":  " + member + "  " + comparisonIndex);
-
           db.zadd(userID + ":Similars", comparisonIndex, member);
           db.zadd(member + ":Similars", comparisonIndex, userID);
 

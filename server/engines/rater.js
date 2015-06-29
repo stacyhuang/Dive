@@ -38,7 +38,6 @@ Rater.prototype.itemsByUser = function(userID, done) {
 Rater.prototype.usersByItem = function(restaurantID, done) {
   var restaurantSentimentList = restaurantID + ":" + this.kind;
   this.db.smembers(restaurantSentimentList, function(err, reply) {
-    console.log("USERS BY ITEM " + reply);
   });
 };
 
