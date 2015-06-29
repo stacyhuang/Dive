@@ -67,12 +67,21 @@ var yelp = require("yelp").createClient({
       res.send(200);
     },
 
-    bookmarkQuery: function(req, res){
+    saveBookmark: function(req, res){
       var restaurantID = req.body.restaurantID;
       var userId = req.body.userId;
 
       algorithm.keep(userId, restaurantID);
       res.send(200);
+    },
+
+    getBookmark: function(req, res){
+      var userId = req.body.userId;
+      console.log(userId);
+      algorithm.getKept(userId, function(data){
+        console.log(data);
+        res.send(200, data); 
+      });
     }
 
  }

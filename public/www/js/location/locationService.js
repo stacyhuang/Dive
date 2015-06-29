@@ -19,7 +19,6 @@
         })
         .then(function (resp) {
           // upon return of data, send it to CardService's retrieve function in the form of an arrays
-          console.log(resp.data);
           CardService.retrieve(resp.data);
         });
       };

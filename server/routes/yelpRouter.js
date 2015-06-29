@@ -14,8 +14,11 @@ module.exports = function(app){
     app.route('/geolocation/')
         .post(yelpController.geolocationQuery)
 
-    app.route('/bookmark/')
-        .post(yelpController.bookmarkQuery)
+    app.route('/bookmark/saveBookmark')
+        .post(yelpController.saveBookmark)
+
+    app.route('/bookmark/getBookmark')
+        .post(yelpController.getBookmark)
 
 }
 
