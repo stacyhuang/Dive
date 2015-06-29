@@ -9,6 +9,8 @@
   LocationCtrl.$inject = ['$scope', '$location', 'LocationFactory', '$rootScope', '$timeout', '$cordovaGeolocation', '$http', 'geoLocation'];
 
   function LocationCtrl($scope, $location, LocationFactory, $rootScope, $timeout, $cordovaGeolocation, $http, geoLocation){
+    $scope.search = {};
+
     //always listening for when the user gets to the end of the list of businesses
     $rootScope.$on('newInfo', function(){
        $timeout(function() {
@@ -31,7 +33,6 @@
         .then(function(response){
           // upon response, reroute to the main page
           $location.path('/app/main');
-          //$scope.search.location = 'TEST';
         });
   	};
     // Adding Geolocation and Geocoding (server gets geocode from Google)
