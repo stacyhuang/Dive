@@ -24,6 +24,7 @@
       // called to flip up a new card/info from this.info's array
       this.addCard = function(){
         // if info is empty there was no call to the algorithm, hence they didn't specify their location
+
         if(this.info.length === 0){
           alert("Please specify a location");
         }else{

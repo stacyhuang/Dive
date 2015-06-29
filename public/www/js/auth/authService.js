@@ -1,5 +1,6 @@
 (function() {
-  var serverUrl = "http://tranquil-badlands-7300.herokuapp.com";
+  // var serverUrl = "http://tranquil-badlands-7300.herokuapp.com";
+  var serverUrl = "";
   angular
     .module('dive')
     .factory('AuthFactory', function ($http, $location, $window) {

@@ -5,9 +5,9 @@
 
     .controller('LoginCtrl', LoginCtrl);
 
-  LoginCtrl.$inject = ['$scope', '$location', '$window', 'AuthFactory'];
+  LoginCtrl.$inject = ['$scope', '$location', '$window', 'AuthFactory', 'LocationFactory']; 
 
-  function LoginCtrl($scope, $location, $window, AuthFactory){
+  function LoginCtrl($scope, $location, $window, AuthFactory, LocationFactory){
 
   	$scope.user = {};
 
@@ -15,6 +15,7 @@
       AuthFactory.login($scope.user)
         .then(function(token){
           $window.localStorage.setItem('com.dive', token);
+          window.localStorage['userId'] = $scope.user.username;
           $location.path('/app/location');
           $scope.user = {};
         })

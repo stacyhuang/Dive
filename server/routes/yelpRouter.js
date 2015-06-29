@@ -1,6 +1,7 @@
 var yelpController = require('./yelpController.js')
 
 module.exports = function(app){
+		console.log("called");
     app.route('/search/*')
         .post(yelpController.searchQuery)
 

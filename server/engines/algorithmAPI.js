@@ -32,7 +32,7 @@ var importYelpRestaurants = function(location, cb) {
       if (!data) {
         cb(false);
       }
-      else {
+      else { 
 
         var restaurantList = "restaurants:" + queryLocation;
         var description = "";
@@ -48,7 +48,10 @@ var importYelpRestaurants = function(location, cb) {
             'name': restaurant.name,
             'id': restaurant.id,
             'image': restaurant.image_url,
-            'description': description
+            'description': description,
+            'location': restaurant.location.display_address,
+            'phone': restaurant.display_phone,
+            'review': restaurant.snippet_text
           });
 
           db.sadd(restaurantList, restaurant.id);
