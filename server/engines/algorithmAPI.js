@@ -36,6 +36,7 @@ var importYelpRestaurants = function(location, cb) {
 
         var restaurantList = "restaurants:" + queryLocation;
         var description = "";
+        console.log(data.businesses.length);
         for (var i = 0; i < data.businesses.length; i++) {
           restaurant = data.businesses[i];
           for (var j = 0; j < restaurant.categories.length; j++) {
