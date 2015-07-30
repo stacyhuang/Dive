@@ -41,8 +41,22 @@
     <script src="js/main/mainCtrl.js"></script>
 
   </head>
+  
+  <script>
+    function isMobile() {
+      try{ document.createEvent("TouchEvent"); return true; }
+      catch(e){ return false; }
+    }
+    window.ismobile = isMobile();
+    console.log("window.ismobile", window.ismobile)
+    if (!ismobile){
+        document.getElementsByClassName("wrapper-desktop")[0].setAttribute("style", "width:500px;")
+    }
 
-  <body ng-app="dive">
-    <ion-nav-view></ion-nav-view>
-  </body>
+  </script>  
+  <div class="wrapper-desktop">
+      <body ng-app="dive">
+        <ion-nav-view></ion-nav-view>
+      </body>
+  </div>
 </html>
