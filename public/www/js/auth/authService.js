@@ -1,5 +1,5 @@
 (function() {
-  var serverUrl = "http://polar-springs-4337.herokuapp.com";
+  var serverUrl = "http://salty-temple-2866.herokuapp.com";
   // var serverUrl = ""; // this is for localhost testing
 
   angular
