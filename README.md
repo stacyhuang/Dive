@@ -48,10 +48,16 @@ npm install
 ### Get Started:
 
 ```sh
-ionic build ios
+//Adding OS platform to ionic and cordova whitelist plugin
+cordova platform add <ios / android>
+ionic plugin add https://github.com/apache/cordova-plugin-whitelist.git
+
 //for ios specifically
-ionic build android
-//for ionic specifically
+ionic build ios
+
+//for android specifically
+ionic run android
+
 ionic serve
 //to run in browser
 ionic emulate
