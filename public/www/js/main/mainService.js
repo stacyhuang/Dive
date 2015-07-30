@@ -1,6 +1,7 @@
 (function() {
-  var serverUrl = "http://polar-springs-4337.herokuapp.com";
+  var serverUrl = "http://getdiveapp.herokuapp.com";
   // var serverUrl = "";
+  
   angular
     .module('dive')
 

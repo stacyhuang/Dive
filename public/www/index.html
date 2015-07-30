@@ -41,8 +41,22 @@
     <script src="js/main/mainCtrl.js"></script>
 
   </head>
-
-  <body ng-app="dive">
-    <ion-nav-view></ion-nav-view>
+  
+  <body ng-app="dive" >
+    <ion-nav-view class="ionic-desktop"></ion-nav-view>
   </body>
+
+  <script>
+    function isMobile() {
+      try{ document.createEvent("TouchEvent"); return true; }
+      catch(e){ return false; }
+    }
+    window.ismobile = isMobile();
+    var left_margin = (window.innerWidth - 500) / 2;
+    console.log("window.ismobile", window.ismobile, left_margin)
+    if (!ismobile){
+        document.getElementsByClassName("ionic-desktop")[0].setAttribute("style", "width:500px;margin-left: " + left_margin + "px;margin-right: auto;")
+    }
+
+  </script>  
 </html>
