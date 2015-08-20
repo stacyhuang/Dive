@@ -1,34 +1,23 @@
 # Dive
+ [http://getdiveapp.herokuapp.com](http://getdiveapp.herokuapp.com)
 
-> The new way to find local bars that are suitable to your taste. The more you use the app, the better our predictions for your next favorite bar become. To find the right bar all you have to do is Dive in. 
+Dive is a mobile application that provides customized dive bar and restaurant recommendations for users
+
+
+## Table of Contents
+
+1. [Team](#team)
+1. [Development](#development)
+    1. [Installing Dependencies](#installing-dependencies)
+    1. [Get Started:](#get-started)
+1. [Tech Stack](#tech-stack)
+1. [Contributing](#contributing)
 
 ## Team
 
   - __Product Owner__: Bryan Liu
   - __Scrum Master__: Jack McDevitt
   - __Development Team Members__: John Paulino, Stacy Huang
-
-## Table of Contents
-
-1. [Usage](#Usage)
-1. [Requirements](#requirements)
-1. [Development](#development)
-    1. [Installing Dependencies](#installing-dependencies)
-    1. [Tasks](#tasks)
-1. [Team](#team)
-1. [Contributing](#contributing)
-
-## Usage
-
-> Some usage instructions
-
-## Requirements
-
-- Node 0.10.x
-- Redis 2.6.x
-- Ionic ^1.5.5
-- Cordova ^5.1.1
-- ion-sim ^3.1.1
 
 ## Development
 
@@ -64,10 +53,14 @@ ionic emulate
 //to run in emulator
 ```
 
-### Roadmap
+## Tech Stack
 
-
-View the project roadmap [CurrentProjectRoadMap.md](CurrentProjectRoadMap.md)
+- Node.js / Express
+- Redis
+- AngularJS
+- Ionic
+- Cordova
+- ion-sim
 
 
 ## Contributing
